@@ -1,0 +1,252 @@
+<!-- 1. HERO BANNER -->
+<section 
+  class="hero-banner" 
+  (touchstart)="onHeroTouchStart($event)" 
+  (touchend)="onHeroTouchEnd($event)"
+>
+  <!-- Desktop Hero Slide (Background image, typewriter, discover button) -->
+  <div 
+    class="hero-desktop-slide" 
+    [style.backgroundImage]="'url(' + heroSlides[currentHeroIndex].image + ')'"
+  >
+    <div class="hero-overlay"></div>
+
+    <!-- Right-side hero content: popup + character typewriter (Desktop Only) -->
+    <div class="hero-content" [class.pop-in]="heroPopIn">
+      <h1 class="hero-title italic-serif">
+        {{ typedTitle }}<span class="typing-cursor" [class.hide]="!showCursor">|</span>
+      </h1>
+      <a [routerLink]="heroSlides[currentHeroIndex].link" [queryParams]="heroSlides[currentHeroIndex].query" class="hero-discover-btn">
+        <span class="btn-label">Discover More</span>
+        <span class="btn-arrow"><i class="fa-solid fa-arrow-right-long"></i></span>
+      </a>
+    </div>
+
+    <!-- Left Bottom Pagination (01 - 2) (Desktop Only) -->
+    <div class="hero-pagination">
+      <button class="pag-btn prev" (click)="prevHero()"><i class="fa-solid fa-chevron-left"></i></button>
+      <span class="pag-text">0{{ currentHeroIndex + 1 }} - {{ heroSlides.length }}</span>
+      <button class="pag-btn next" (click)="nextHero()"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </div>
+
+  <!-- Mobile Hero Slide (Pure visual artwork with baked-in text - NO overlapping HTML text or buttons) -->
+  <div class="hero-mobile-slide">
+    <a [routerLink]="heroSlides[currentHeroIndex].link" [queryParams]="heroSlides[currentHeroIndex].query" class="hero-mobile-link">
+      <img 
+        [src]="heroSlides[currentHeroIndex].mobileImage" 
+        [alt]="heroSlides[currentHeroIndex].title" 
+        class="hero-mobile-img" 
+      />
+    </a>
+  </div>
+</section>
+
+<!-- 2. SHOP BY CATEGORY (6 Cards Grid) -->
+<section class="category-section">
+  <div class="container">
+    <h2 class="section-title serif-heading move-from-top">SHOP BY CATEGORY</h2>
+
+    <div class="category-grid">
+      <div 
+        class="category-card floating-card" 
+        *ngFor="let cat of shopCategories; let idx = index"
+        [routerLink]="['/products']" 
+        [queryParams]="{category: cat.query}"
+        [ngClass]="getCategoryAnimationClass(idx)"
+      >
+        <div class="cat-img-box" [ngClass]="getCategoryFloatClass(idx)">
+          <img [src]="cat.image" [alt]="cat.name" />
+          <div class="cat-shade"></div>
+        </div>
+        <div class="cat-label">
+          <span>{{ cat.name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. THE ART OF CELEBRATION (Smooth Auto Carousel Pill Gallery) -->
+<section class="art-celebration-section">
+  <div class="container celebration-gallery-container">
+    <div class="celebration-gallery-inner">
+      
+      <!-- Left Editorial Column: Short and clean content -->
+      <div class="celebration-left move-from-left">
+        <span class="editorial-eyebrow">COUTURE ARCHIVES</span>
+        <h2 class="editorial-heading serif-heading">THE ART OF CELEBRATION</h2>
+        <p class="editorial-text">
+          Occasion dressing where heritage techniques meet contemporary silhouettes.
+        </p>
+        <div class="palette-actions-group">
+          <a routerLink="/products" [queryParams]="{category: 'Saree'}" class="palette-explore-btn">
+            <span>EXPLORE</span>
+            <i class="fa-solid fa-arrow-right-long"></i>
+          </a>
+          <!-- Smooth Carousel Arrow Controls -->
+          <div class="celebration-nav-arrows">
+            <button class="cel-arrow-btn prev" (click)="prevCelebration()" aria-label="Previous Look">
+              <i class="fa-solid fa-arrow-left-long"></i>
+            </button>
+            <button class="cel-arrow-btn next" (click)="nextCelebration()" aria-label="Next Look">
+              <i class="fa-solid fa-arrow-right-long"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right 7 Stadium Pill Capsules: Staggered one-after-one bottom-to-top load effect -->
+      <div 
+        class="celebration-right"
+        #celebrationRight
+        (mouseenter)="stopCelebrationAutoScroll()"
+        (mouseleave)="startCelebrationAutoScroll()"
+        (touchstart)="onCelebrationTouchStart($event)"
+        (touchend)="onCelebrationTouchEnd($event)"
+      >
+        <div class="mobile-swipe-hint">
+          <span>Swipe looks</span>
+          <i class="fa-solid fa-arrow-right-long"></i>
+        </div>
+        <div class="celebration-pills" [class.is-visible]="celebrationVisible">
+          <a 
+            class="celebration-pill" 
+            *ngFor="let item of celebrationLooks; let i = index"
+            [routerLink]="['/product', item.id]"
+            [style.transitionDelay]="celebrationAnimationDone ? '0s' : ((i * 0.14 + 0.08) + 's')"
+            [attr.title]="'View ' + item.title + ' Details'"
+          >
+            <div class="pill-img-frame">
+              <img [src]="item.image" [alt]="item.title" />
+            </div>
+            <!-- Bottom Text Overlay (Always clearly visible) -->
+            <div class="pill-caption-overlay">
+              <span class="pill-caption-name">{{ item.name }}</span>
+              <span class="pill-caption-dash"></span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 4. THE BRIDESMAIDS'S (Full-width Editorial Banner) -->
+<section class="bridesmaids-banner">
+  <div class="bridesmaids-overlay"></div>
+  <div class="bridesmaids-content move-from-bottom">
+    <h2 class="bridesmaids-title italic-serif">The Bridesmaids's</h2>
+    <a routerLink="/products" [queryParams]="{category: 'Lehenga'}" class="underline-link light">EXPLORE</a>
+  </div>
+</section>
+
+<!-- 5. DRESSED FOR THE MOMENT (Carousel with Floating Image Cards) -->
+<section class="dressed-moment-section">
+  <div class="container">
+    <h2 class="section-title serif-heading">DRESSED FOR THE MOMENT</h2>
+
+    <div class="moment-carousel-wrap" (mouseenter)="stopAutoScroll()" (mouseleave)="startAutoScroll()" (touchstart)="onMomentTouchStart($event)" (touchend)="onMomentTouchEnd($event)">
+      <!-- Carousel Arrows -->
+      <button class="carousel-arrow prev" (click)="prevMoment()" aria-label="Previous">
+        <i class="fa-solid fa-arrow-left-long"></i>
+      </button>
+
+      <div class="moment-cards-container">
+        <div
+          class="moment-card"
+          *ngFor="let item of momentLooks; let i = index"
+          [class.center-floating]="i === 2"
+          [class.left-card]="i < 2"
+          [class.right-card]="i > 2"
+          (click)="setMoment(i)"
+        >
+          <div class="moment-card-inner">
+            <div class="moment-img-wrap">
+              <img [src]="item.image" [alt]="item.title" />
+              <div class="moment-card-actions" *ngIf="i === 2">
+                <a [routerLink]="['/product', item.id]" class="quick-link">View Look</a>
+                <button class="add-btn" (click)="addToCart(item); $event.stopPropagation()">+ Quick Bag</button>
+              </div>
+            </div>
+            <div class="moment-info" *ngIf="i === 2">
+              <h3 class="moment-name">{{ item.title }}</h3>
+              <span class="moment-price">{{ cartService.formatPrice(item.price) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-arrow next" (click)="nextMoment()" aria-label="Next">
+        <i class="fa-solid fa-arrow-right-long"></i>
+      </button>
+    </div>
+
+    <!-- Carousel Indicator Dots -->
+    <div class="carousel-dots">
+      <span 
+        *ngFor="let id of dotIds; let idx = index" 
+        [class.active]="idx === activeDotIndex"
+        (click)="goToDot(idx)"
+      ></span>
+    </div>
+  </div>
+</section>
+
+<!-- 6. THE BEAUTY OF EVERY DETAIL (Staggered Floating Cards) -->
+<section class="beauty-detail-section">
+  <div class="container beauty-inner">
+    <div class="beauty-content move-from-left">
+      <h2 class="editorial-heading serif-heading">THE BEAUTY OF EVERY DETAIL</h2>
+      <p class="editorial-text">
+        Sia Luxury is a contemporary Indian fashion maison built on a simple belief: that occasion wear should feel considered, not costumed.
+      </p>
+      <a routerLink="/products" class="underline-link">VIEW THE COLLECTION</a>
+    </div>
+
+    <div class="beauty-media-staggered">
+      <div class="stagger-card card-one floating-card move-from-top">
+        <div class="float-drift-top" style="width: 100%; height: 100%;">
+          <img src="assets/thebeauty.png" alt="Couture Weave" />
+        </div>
+      </div>
+      <div class="stagger-card card-two floating-card move-from-bottom">
+        <div class="float-drift-bottom" style="width: 100%; height: 100%;">
+          <img src="assets/thebeauty1.png" alt="Royal Tailoring" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. FOLLOW OUR WORLD (Lookbook Grid) -->
+<section class="follow-world-section">
+  <div class="container">
+    <h2 class="section-title serif-heading move-from-top">FOLLOW OUR WORLD</h2>
+
+    <div class="lookbook-grid">
+      <div 
+        class="lookbook-card floating-card" 
+        *ngFor="let lb of lookbookItems; let i = index"
+        [ngClass]="getLookbookAnimationClass(i)"
+      >
+        <div [ngClass]="getLookbookFloatClass(i)" style="width: 100%; height: 100%;">
+          <img [src]="lb.image" [alt]="lb.caption" />
+          <div class="lookbook-hover-overlay">
+            <i class="fa-brands fa-instagram insta-icon"></i>
+            <span>{{ lb.caption }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. RESERVE YOUR SLOT (Bottom Salon Appointment Banner) -->
+<section class="reserve-slot-banner">
+  <div class="reserve-overlay"></div>
+  <div class="reserve-content move-from-bottom">
+    <h2 class="reserve-title italic-serif">Reserve Your Slot</h2>
+    <a routerLink="/products" class="underline-link light">Schedule an appointment</a>
+  </div>
+</section>

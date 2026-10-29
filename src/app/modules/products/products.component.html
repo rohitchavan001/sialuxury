@@ -1,0 +1,179 @@
+<div class="catalog-page">
+  <!-- Toast Notification -->
+  <div class="toast-bag" *ngIf="addedToastProduct">
+    <i class="fa-solid fa-check"></i>
+    <span>Added <strong>{{ addedToastProduct.name }}</strong> to bag</span>
+  </div>
+
+  <!-- Catalog Banner Header (Home page luxury style) -->
+  <header class="catalog-header">
+    <div class="container catalog-header-inner">
+      <nav class="sub-breadcrumb" aria-label="Breadcrumb">
+        <a routerLink="/">Home</a>
+        <span class="sep">/</span>
+        <span class="curr">Couture Archives</span>
+      </nav>
+      <span class="catalog-eyebrow">SIA LUXURY ATELIER</span>
+      <h1 class="catalog-title serif-heading">The Haute Couture Archives</h1>
+      <p class="catalog-desc">
+        Explore hand-embroidered bridal lehengas, authentic silk sarees, and royal sherwanis handcrafted by master artisans.
+      </p>
+    </div>
+  </header>
+
+  <!-- Main Catalog Container -->
+  <main class="container catalog-body">
+    <!-- Controls Bar: Category Tabs, Search, Sort -->
+    <div class="catalog-controls">
+      <!-- Category Filter Tabs (Scrollable on mobile) -->
+      <div class="category-tabs" role="tablist">
+        <button 
+          type="button"
+          *ngFor="let cat of categories" 
+          [class.active]="selectedCategory === cat"
+          (click)="setCategory(cat)"
+          role="tab"
+          [attr.aria-selected]="selectedCategory === cat"
+        >
+          {{ cat }}
+        </button>
+      </div>
+
+      <!-- Filter & Sort Bar -->
+      <div class="controls-right">
+        <!-- Search Input -->
+        <div class="search-input-wrap">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input 
+            type="text" 
+            placeholder="Search couture..." 
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="onFilterChange()"
+          />
+          <button *ngIf="searchQuery" (click)="searchQuery = ''; onFilterChange()" class="clear-icon" aria-label="Clear search">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Price Max Slider -->
+        <div class="price-slider-wrap">
+          <label>Max: <strong>{{ cartService.formatPrice(maxPrice) }}</strong></label>
+          <input 
+            type="range" 
+            min="500" 
+            max="3000" 
+            step="50" 
+            [(ngModel)]="maxPrice" 
+            (ngModelChange)="onFilterChange()" 
+          />
+        </div>
+
+        <!-- Sort Dropdown -->
+        <div class="sort-wrap">
+          <select [(ngModel)]="selectedSort" (ngModelChange)="onFilterChange()" aria-label="Sort products">
+            <option value="featured">Featured Curations</option>
+            <option value="low-high">Price: Low to High</option>
+            <option value="high-low">Price: High to Low</option>
+            <option value="rating">Highest Rated</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Meta Line -->
+    <div class="results-meta">
+      <span class="meta-count">
+        Showing <strong>{{ filteredProducts.length }}</strong> creations in <em>{{ selectedCategory }}</em>
+      </span>
+      <button 
+        *ngIf="selectedCategory !== 'All' || searchQuery || maxPrice < 3000" 
+        class="reset-link" 
+        (click)="resetFilters()"
+      >
+        <i class="fa-solid fa-rotate-left"></i> Reset Filters
+      </button>
+    </div>
+
+    <!-- Skeleton Shimmer Loader during transitions -->
+    <div class="products-grid skeleton-grid" *ngIf="isLoading">
+      <div class="product-card skeleton-card" *ngFor="let s of [1,2,3,4,5,6]">
+        <div class="skeleton-img shimmer"></div>
+        <div class="skeleton-info">
+          <div class="skeleton-line shimmer short"></div>
+          <div class="skeleton-line shimmer long"></div>
+          <div class="skeleton-line shimmer price"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="no-results" *ngIf="!isLoading && filteredProducts.length === 0">
+      <div class="empty-icon-wrap">
+        <i class="fa-solid fa-gem empty-gem"></i>
+      </div>
+      <h3 class="serif-heading">No Creations Found</h3>
+      <p>We couldn't find any pieces matching your current filter criteria.</p>
+      <button class="btn-reset-filters" (click)="resetFilters()">View All Creations</button>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid" *ngIf="!isLoading && filteredProducts.length > 0">
+      <div 
+        class="product-card" 
+        *ngFor="let p of filteredProducts; let i = index"
+        [style.animationDelay]="(i * 0.05) + 's'"
+      >
+        <!-- Image with center-top framing -->
+        <div class="product-img-wrap">
+          <!-- Badge -->
+          <div class="product-badge" *ngIf="p.badge" [ngClass]="'badge-' + p.badge.toLowerCase()">
+            {{ p.badge }}
+          </div>
+
+          <!-- Wishlist Button (Anchored to top-right of image) -->
+          <button 
+            class="wishlist-btn" 
+            [class.active]="cartService.isWishlisted(p.id)"
+            (click)="toggleWishlist(p.id, $event)"
+            aria-label="Save to Wishlist"
+          >
+            <i [class]="cartService.isWishlisted(p.id) ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+          </button>
+
+          <a [routerLink]="['/product', p.id]">
+            <img [src]="p.image" [alt]="p.name" loading="lazy" />
+          </a>
+
+          <!-- Quick Add Hover Bar -->
+          <div class="quick-add-bar">
+            <button class="quick-add-btn" (click)="addToCart(p, $event)" aria-label="Add to Bag">
+              <i class="fa-solid fa-bag-shopping"></i>
+              <span>+ Quick Bag</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div class="product-info">
+          <div class="product-header-line">
+            <span class="product-cat">{{ p.category }}</span>
+            <div class="product-rating" *ngIf="p.rating">
+              <i class="fa-solid fa-star gold-icon"></i>
+              <span>{{ p.rating }}</span>
+            </div>
+          </div>
+
+          <h3 class="product-name">
+            <a [routerLink]="['/product', p.id]">{{ p.name }}</a>
+          </h3>
+          <p class="product-sub">{{ p.subtitle }}</p>
+
+          <div class="product-pricing">
+            <span class="current-price">{{ cartService.formatPrice(p.price) }}</span>
+            <span class="original-price" *ngIf="p.originalPrice">{{ cartService.formatPrice(p.originalPrice) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

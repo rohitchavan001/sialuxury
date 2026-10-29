@@ -1,0 +1,199 @@
+<div class="product-detail-page" *ngIf="product">
+  <!-- Toast Notification -->
+  <div class="toast-bag" *ngIf="addedToast">
+    <i class="fa-solid fa-check"></i>
+    <span>Added <strong>{{ product.name }}</strong> ({{ selectedSize }} × {{ quantity }}) to bag</span>
+  </div>
+  <div class="container">
+    <!-- Breadcrumb -->
+    <div class="detail-breadcrumb">
+      <a routerLink="/">Home</a> / 
+      <a routerLink="/products">Couture</a> / 
+      <a routerLink="/products" [queryParams]="{category: product.category}">{{ product.category }}</a> / 
+      <span>{{ product.name }}</span>
+    </div>
+
+    <!-- Product Main Grid -->
+    <div class="detail-grid">
+      <!-- Left: Gallery Media -->
+      <div class="detail-gallery">
+        <!-- Thumbnails -->
+        <div class="thumbnails-col" *ngIf="product.gallery && product.gallery.length > 1">
+          <div 
+            class="thumb-item" 
+            *ngFor="let img of product.gallery" 
+            [class.active]="selectedImage === img"
+            (click)="setImage(img)"
+          >
+            <img [src]="img" [alt]="product.name" />
+          </div>
+        </div>
+
+        <!-- Main Display -->
+        <div class="main-display">
+          <img [src]="selectedImage" [alt]="product.name" class="main-photo" />
+          <div class="badge-tag" *ngIf="product.badge">{{ product.badge }}</div>
+          <button class="wishlist-float-btn" [class.active]="cartService.isWishlisted(product.id)" (click)="toggleWishlist()">
+            <i [class]="cartService.isWishlisted(product.id) ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right: Product Purchase Info -->
+      <div class="detail-info">
+        <span class="detail-cat">{{ product.category }} • BESPOKE COUTURE</span>
+        <h1 class="detail-title">{{ product.name }}</h1>
+        <p class="detail-sub">{{ product.subtitle }}</p>
+
+        <!-- Rating & Reviews -->
+        <div class="detail-rating">
+          <div class="stars">
+            <i class="fa-solid fa-star gold-icon"></i>
+            <i class="fa-solid fa-star gold-icon"></i>
+            <i class="fa-solid fa-star gold-icon"></i>
+            <i class="fa-solid fa-star gold-icon"></i>
+            <i class="fa-solid fa-star gold-icon"></i>
+          </div>
+          <span class="score">{{ product.rating }}</span>
+          <span class="reviews-count">({{ product.reviewsCount }} Verified Couture Reviews)</span>
+        </div>
+
+        <!-- Price -->
+        <div class="detail-price-box">
+          <span class="current-price">{{ cartService.formatPrice(product.price) }}</span>
+          <span class="original-price" *ngIf="product.originalPrice">{{ cartService.formatPrice(product.originalPrice) }}</span>
+          <span class="vat-note">Inclusive of all international taxes, tariffs, and luxury packaging.</span>
+        </div>
+
+        <!-- Color Info -->
+        <div class="color-picker-section">
+          <label>Shade: <strong>{{ product.color }}</strong></label>
+          <div class="color-swatch-list">
+            <div class="color-chip active" [title]="product.color">
+              <span class="chip-inner"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Size Selector -->
+        <div class="size-section">
+          <div class="size-label-row">
+            <label>Select Size</label>
+            <button class="size-guide-btn"><i class="fa-solid fa-ruler-combined"></i> Bespoke Measurement Guide</button>
+          </div>
+
+          <div class="size-chips">
+            <button 
+              *ngFor="let s of product.sizes" 
+              [class.active]="selectedSize === s"
+              (click)="selectSize(s)"
+            >
+              {{ s }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Quantity & Actions -->
+        <div class="actions-section">
+          <div class="qty-and-cart-row">
+            <div class="qty-box">
+              <button (click)="updateQty(-1)" aria-label="Decrease quantity">-</button>
+              <span>{{ quantity }}</span>
+              <button (click)="updateQty(1)" aria-label="Increase quantity">+</button>
+            </div>
+
+            <button class="btn-gold add-btn" (click)="addToCart()">
+              <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+            </button>
+          </div>
+
+          <button class="btn-outline-gold buy-now-btn" (click)="buyNow()">
+            Instant Order
+          </button>
+        </div>
+
+        <!-- Trust Badges Strip -->
+        <div class="perks-strip">
+          <div class="perk-item">
+            <i class="fa-solid fa-plane-up gold-icon"></i>
+            <div>
+              <strong>Complimentary Global Courier</strong>
+              <span>Arrives in 4-7 business days</span>
+            </div>
+          </div>
+          <div class="perk-item">
+            <i class="fa-solid fa-gem gold-icon"></i>
+            <div>
+              <strong>Haute Couture Authenticity</strong>
+              <span>Includes Certificate of Handcraft</span>
+            </div>
+          </div>
+          <div class="perk-item">
+            <i class="fa-solid fa-scissors gold-icon"></i>
+            <div>
+              <strong>Bespoke Custom Fitting</strong>
+              <span>Complimentary alterations support</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Description Accordion / Tabs -->
+        <div class="tabs-section">
+          <div class="tab-headers">
+            <button [class.active]="activeTab === 'details'" (click)="activeTab = 'details'">Creation Story</button>
+            <button [class.active]="activeTab === 'fabric'" (click)="activeTab = 'fabric'">Fabric & Craft</button>
+            <button [class.active]="activeTab === 'shipping'" (click)="activeTab = 'shipping'">White-Glove Delivery</button>
+          </div>
+
+          <div class="tab-content" [ngSwitch]="activeTab">
+            <div *ngSwitchCase="'details'">
+              <p>{{ product.description }}</p>
+              <ul class="spec-list">
+                <li>• Hand-stitched lining with built-in can-can padding for regal drape.</li>
+                <li>• Includes hand-embroidered waist tie-ups with jewel tassels.</li>
+                <li>• Stored in custom wooden cedar heirloom box with garment bag.</li>
+              </ul>
+            </div>
+
+            <div *ngSwitchCase="'fabric'">
+              <p><strong>Primary Fabric:</strong> {{ product.fabric }}</p>
+              <p><strong>Embroidery:</strong> Handcrafted Zardozi, Gota Patti, and Resham threadwork.</p>
+              <p><strong>Care Instructions:</strong> Strictly professional dry clean only. Store wrapped in pure unbleached muslin cloth.</p>
+            </div>
+
+            <div *ngSwitchCase="'shipping'">
+              <p>Every Sia Luxury order is packaged in our signature obsidian and gold heirloom presentation box, finished with silk ribbons.</p>
+              <p>Includes fully insured express transport with real-time GPS tracking and signature verification upon arrival.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Masterpieces -->
+    <div class="related-section" *ngIf="relatedProducts.length > 0">
+      <div class="section-title-wrap">
+        <span class="section-subtitle">COMPLEMENTARY ENSEMBLES</span>
+        <h2 class="section-title">You May Also Admire</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="related-grid">
+        <div class="product-card" *ngFor="let rel of relatedProducts">
+          <div class="product-img-wrap">
+            <a [routerLink]="['/product', rel.id]">
+              <img [src]="rel.image" [alt]="rel.name" />
+            </a>
+          </div>
+          <div class="product-info">
+            <span class="product-cat">{{ rel.category }}</span>
+            <h3 class="product-name">
+              <a [routerLink]="['/product', rel.id]">{{ rel.name }}</a>
+            </h3>
+            <span class="current-price">{{ cartService.formatPrice(rel.price) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

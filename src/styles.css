@@ -1,0 +1,218 @@
+/* SIA LUXURY - Global Design System
+   Clean White & Grey Haute Couture Theme
+*/
+:root {
+  /* Clean White & Grey Luxury Design System (Matching Home Page) */
+  --bg-body: #ffffff;
+  --bg-primary: #ffffff;
+  --bg-cream: #fbfbf9;
+  --bg-card: #f9f8f5;
+  --bg-card-hover: #f3f1ec;
+  --bg-light-gray: #ededed;
+  --bg-drawer: #ffffff;
+  
+  --text-dark: #121212;
+  --text-primary: #121212;
+  --text-body: #4a4a4a;
+  --text-secondary: #5a5a5a;
+  --text-muted: #888888;
+  --text-light: #ffffff;
+  
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-dark: #121212;
+  --border-gold: rgba(179, 139, 89, 0.35);
+  
+  --gold-accent: #b38b59;
+  --gold-primary: #9c7a4c;
+  --gold-light: #b38b59;
+  --gold-gradient: linear-gradient(135deg, #121212 0%, #2a2a2a 100%);
+  
+  --font-serif: 'Cinzel', 'Playfair Display', Georgia, serif;
+  --font-editorial: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --shadow-float: 0 16px 36px rgba(0, 0, 0, 0.08);
+  --shadow-float-hover: 0 24px 48px rgba(0, 0, 0, 0.12);
+  --shadow-luxury: 0 10px 30px rgba(0, 0, 0, 0.06);
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  overflow-x: clip;
+  width: 100%;
+}
+
+body {
+  background-color: var(--bg-body);
+  color: var(--text-dark);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  width: 100%;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font-sans);
+  transition: var(--transition-smooth);
+}
+
+/* Global Reusable Luxury Buttons (Clean White & Grey Theme) */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: #121212;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.8rem;
+  border-radius: 2px;
+  border: 1px solid #121212;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  text-align: center;
+  min-height: 44px;
+}
+
+.btn-gold:hover {
+  background: var(--gold-accent);
+  border-color: var(--gold-accent);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(179, 139, 89, 0.25);
+}
+
+.btn-gold:active {
+  transform: translateY(0);
+}
+
+.btn-outline-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: transparent;
+  color: #121212;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.8rem 1.6rem;
+  border-radius: 2px;
+  border: 1px solid #121212;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  text-align: center;
+  min-height: 44px;
+}
+
+.btn-outline-gold:hover {
+  background: #121212;
+  color: #ffffff;
+}
+
+.btn-outline-gold:active {
+  transform: translateY(0);
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+/* Typography Helpers */
+.serif-heading {
+  font-family: var(--font-serif);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dark);
+  font-weight: 400;
+}
+
+.italic-serif {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Floating Image Card Effect Utilities */
+.floating-card {
+  transition: var(--transition-smooth);
+  will-change: transform, box-shadow;
+}
+
+.floating-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-float-hover);
+}
+
+@media (max-width: 768px) {
+  .floating-card:hover {
+    transform: none;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f7f7f7;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4d4d4;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #888888;
+}

@@ -1,0 +1,136 @@
+<div class="cart-page">
+  <div class="container">
+    <div class="cart-top-header">
+      <span class="sub"><a routerLink="/">Home</a> / <span>Shopping Bag</span></span>
+      <h1 class="title">Your Haute Couture Bag</h1>
+      <p class="desc">Review your handcrafted ensembles before entering our secured atelier checkout.</p>
+    </div>
+
+    <!-- Empty Bag State -->
+    <div class="empty-bag-card" *ngIf="cartService.cart.length === 0">
+      <i class="fa-solid fa-bag-shopping empty-icon"></i>
+      <h2>Your Shopping Bag is Currently Empty</h2>
+      <p>Browse our curated collections of bridal lehengas, silk sarees, and royal sherwanis.</p>
+      <a routerLink="/products" class="btn-gold">Explore Collections</a>
+    </div>
+
+    <!-- Active Cart Layout -->
+    <div class="cart-layout" *ngIf="cartService.cart.length > 0">
+      <!-- Items Table / Column -->
+      <div class="cart-table-col">
+        <div class="cart-table-header">
+          <span class="col-item">Creations ({{ cartService.getCartCount() }})</span>
+          <span class="col-qty">Quantity</span>
+          <span class="col-total">Line Total</span>
+        </div>
+
+        <div class="cart-row" *ngFor="let item of cartService.cart; let i = index">
+          <div class="item-primary">
+            <a [routerLink]="['/product', item.product.id]">
+              <img [src]="item.product.image" [alt]="item.product.name" class="row-thumb" />
+            </a>
+            <div class="row-info">
+              <span class="row-cat">{{ item.product.category }}</span>
+              <h3 class="row-name">
+                <a [routerLink]="['/product', item.product.id]">{{ item.product.name }}</a>
+              </h3>
+              <div class="row-specs">
+                <span>Size: <strong>{{ item.selectedSize }}</strong></span>
+                <span>Fabric: <strong>{{ item.product.fabric }}</strong></span>
+              </div>
+              <span class="unit-price">Unit: {{ cartService.formatPrice(item.product.price) }}</span>
+
+              <button class="remove-link" (click)="cartService.removeFromCart(i)">
+                <i class="fa-solid fa-trash-can"></i> Remove
+              </button>
+            </div>
+          </div>
+
+          <div class="item-actions-mobile">
+            <div class="item-qty-col">
+              <div class="qty-stepper">
+                <button (click)="cartService.updateQty(i, -1)">-</button>
+                <span>{{ item.quantity }}</span>
+                <button (click)="cartService.updateQty(i, 1)">+</button>
+              </div>
+            </div>
+
+            <div class="item-total-col">
+              <span class="price-val">{{ cartService.formatPrice(item.product.price * item.quantity) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bag Perks -->
+        <div class="bag-perks">
+          <div class="perk"><i class="fa-solid fa-shield-halved gold-icon"></i> Secured Escrow Payment Processing</div>
+          <div class="perk"><i class="fa-solid fa-gift gold-icon"></i> Signature Obsidian Heirloom Packaging</div>
+          <div class="perk"><i class="fa-solid fa-scissors gold-icon"></i> Complimentary Virtual Bespoke Fitting</div>
+        </div>
+      </div>
+
+      <!-- Order Summary Card -->
+      <div class="cart-summary-col">
+        <div class="summary-card">
+          <h3 class="summary-title">Order Summary</h3>
+
+          <div class="summary-line">
+            <span>Estimated Subtotal</span>
+            <span>{{ cartService.formatPrice(cartService.getSubtotal()) }}</span>
+          </div>
+
+          <div class="summary-line" *ngIf="promoApplied">
+            <span class="discount-label"><i class="fa-solid fa-tag"></i> Sia Privé Privilege (10%)</span>
+            <span class="discount-val">-{{ cartService.formatPrice(discountAmount) }}</span>
+          </div>
+
+          <div class="summary-line">
+            <span>Insured Global Courier</span>
+            <span class="free-badge">COMPLIMENTARY</span>
+          </div>
+
+          <div class="summary-line">
+            <span>Customs Duties & Tariffs</span>
+            <span>INCLUDED</span>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-total-line">
+            <span>Total Amount</span>
+            <span class="grand-total">{{ cartService.formatPrice(finalTotal) }}</span>
+          </div>
+
+          <!-- Promo Code Input -->
+          <div class="promo-box">
+            <label>Privilege Voucher Code</label>
+            <div class="promo-input-group">
+              <input 
+                type="text" 
+                placeholder="Try 'SIAVIP'" 
+                [(ngModel)]="promoCode" 
+                [disabled]="promoApplied"
+              />
+              <button class="btn-outline-gold promo-btn" (click)="applyPromo()" [disabled]="promoApplied">
+                {{ promoApplied ? 'Applied' : 'Apply' }}
+              </button>
+            </div>
+            <span class="promo-hint" *ngIf="!promoApplied">Use promo code <strong>SIAVIP</strong> for 10% private salon discount.</span>
+            <span class="promo-success" *ngIf="promoApplied">Privilege voucher active: 10% applied.</span>
+            <span class="promo-error" *ngIf="promoError">{{ promoError }}</span>
+          </div>
+
+          <!-- Checkout CTA -->
+          <a routerLink="/checkout" class="btn-gold checkout-submit-btn">
+            <span>Proceed to Atelier Checkout</span>
+            <i class="fa-solid fa-lock"></i>
+          </a>
+
+          <a routerLink="/products" class="continue-link">
+            <i class="fa-solid fa-arrow-left"></i> Continue Exploring Collections
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

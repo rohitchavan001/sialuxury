@@ -1,0 +1,84 @@
+<!-- Backdrop -->
+<div class="cart-backdrop" *ngIf="cartService.isCartDrawerOpen" (click)="close()"></div>
+
+<!-- Slideout Cart Panel -->
+<aside class="luxury-cart-drawer" [class.open]="cartService.isCartDrawerOpen">
+  <div class="cart-header">
+    <div class="title-wrap">
+      <h3>SHOPPING BAG</h3>
+      <span class="count">({{ cartService.getCartCount() }} ITEMS)</span>
+    </div>
+    <button class="close-btn" (click)="close()" aria-label="Close Cart">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <!-- Free Shipping Progress -->
+  <div class="shipping-bar">
+    <p *ngIf="cartService.getSubtotal() >= 500">
+      <i class="fa-solid fa-circle-check text-gold"></i> You have unlocked <strong>Complimentary Worldwide Express Courier</strong>!
+    </p>
+    <p *ngIf="cartService.getSubtotal() < 500">
+      Add <strong>{{ cartService.formatPrice(500 - cartService.getSubtotal()) }}</strong> more for Complimentary Express Courier
+    </p>
+    <div class="progress-track">
+      <div class="progress-fill" [style.width.%]="(cartService.getSubtotal() / 500) * 100 > 100 ? 100 : (cartService.getSubtotal() / 500) * 100"></div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-cart" *ngIf="cartService.cart.length === 0">
+    <i class="fa-solid fa-bag-shopping empty-icon"></i>
+    <h4>Your Shopping Bag is Empty</h4>
+    <p>Discover hand-crafted couture creations from our latest runway edit.</p>
+    <a routerLink="/products" (click)="close()" class="btn-gold shop-now-btn">Explore Collections</a>
+  </div>
+
+  <!-- Cart Items List -->
+  <div class="cart-items-wrap" *ngIf="cartService.cart.length > 0">
+    <div class="cart-item" *ngFor="let item of cartService.cart; let i = index">
+      <img [src]="item.product.image" [alt]="item.product.name" class="item-img" />
+      
+      <div class="item-details">
+        <div class="item-top">
+          <span class="item-cat">{{ item.product.category }}</span>
+          <button class="remove-btn" (click)="cartService.removeFromCart(i)" title="Remove item">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </div>
+        
+        <h4 class="item-name">{{ item.product.name }}</h4>
+        <div class="item-meta">
+          <span>Size: <strong>{{ item.selectedSize }}</strong></span>
+          <span>Color: <strong>{{ item.product.color }}</strong></span>
+        </div>
+
+        <div class="item-bottom">
+          <div class="qty-control">
+            <button (click)="cartService.updateQty(i, -1)">-</button>
+            <span>{{ item.quantity }}</span>
+            <button (click)="cartService.updateQty(i, 1)">+</button>
+          </div>
+          <span class="item-price">{{ cartService.formatPrice(item.product.price * item.quantity) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Footer -->
+  <div class="cart-footer" *ngIf="cartService.cart.length > 0">
+    <div class="subtotal-row">
+      <span>Estimated Subtotal</span>
+      <span class="subtotal-val">{{ cartService.formatPrice(cartService.getSubtotal()) }}</span>
+    </div>
+    <span class="tax-note">Taxes, customs duties, & bespoke finishing calculated at checkout</span>
+
+    <div class="action-buttons">
+      <a routerLink="/cart" (click)="close()" class="btn-outline-gold full-btn">View Detailed Bag</a>
+      <a routerLink="/checkout" (click)="close()" class="btn-gold full-btn checkout-btn">
+        <span>Proceed to Checkout</span>
+        <i class="fa-solid fa-lock"></i>
+      </a>
+    </div>
+  </div>
+</aside>

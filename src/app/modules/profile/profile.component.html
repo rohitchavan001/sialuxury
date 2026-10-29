@@ -1,0 +1,301 @@
+<div class="profile-page">
+
+  <!-- Success Toast -->
+  <div class="toast-auth" *ngIf="authSuccessMsg">
+    <i class="fa-solid fa-crown"></i>
+    <span>{{ authSuccessMsg }}</span>
+  </div>
+
+  <div class="container">
+    
+    <!-- Top Breadcrumb -->
+    <nav class="sub-breadcrumb" aria-label="Breadcrumb">
+      <a routerLink="/">Home</a>
+      <span class="sep">/</span>
+      <span class="curr">{{ authService.isLoggedIn ? 'Client Profile' : 'Client Salon Access' }}</span>
+    </nav>
+
+    <!-- ========================================================
+         VIEW A: LOGGED IN - SHORT PROFILE DETAILS
+         ======================================================== -->
+    <div class="profile-logged-in" *ngIf="authService.isLoggedIn && authService.currentUser as user">
+      
+      <!-- Patron Header Card -->
+      <header class="patron-hero-card">
+        <div class="patron-avatar">
+          <span>{{ user.name.charAt(0) }}</span>
+        </div>
+        <div class="patron-meta">
+          <span class="patron-tier"><i class="fa-solid fa-crown"></i> {{ user.tier }}</span>
+          <h1 class="patron-name serif-heading">{{ user.name }}</h1>
+          <p class="patron-sub">
+            Atelier Patron Since {{ user.memberSince }} • Dedicated Concierge Active
+          </p>
+        </div>
+        <div class="patron-actions">
+          <a routerLink="/wishlist" class="btn-patron-wishlist">
+            <i class="fa-regular fa-heart"></i>
+            <span>Wishlist ({{ cartService.wishlistIds.length }})</span>
+          </a>
+          <button class="btn-patron-logout" (click)="onLogout()">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Short Details Grid (3 Minimalist Cards) -->
+      <div class="profile-details-grid">
+        
+        <!-- Card 1: Contact & Residence -->
+        <div class="detail-card">
+          <div class="card-title-row">
+            <i class="fa-regular fa-address-card gold-icon"></i>
+            <h3>Client Information</h3>
+          </div>
+          <div class="detail-rows">
+            <div class="row-item">
+              <span class="lbl">Email Address</span>
+              <span class="val">{{ user.email }}</span>
+            </div>
+            <div class="row-item">
+              <span class="lbl">Direct WhatsApp / Phone</span>
+              <span class="val">{{ user.phone }}</span>
+            </div>
+            <div class="row-item">
+              <span class="lbl">Primary Residence</span>
+              <span class="val">{{ user.address }}, {{ user.city }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Verified Bespoke Dimensions -->
+        <div class="detail-card">
+          <div class="card-title-row">
+            <i class="fa-solid fa-tape gold-icon"></i>
+            <h3>Bespoke Measurements</h3>
+          </div>
+          <div class="detail-rows">
+            <div class="row-item">
+              <span class="lbl">Height & Silhouette</span>
+              <span class="val">{{ user.measurements.height }}</span>
+            </div>
+            <div class="row-item">
+              <span class="lbl">Blouse / Chest</span>
+              <span class="val">{{ user.measurements.blouseChest }}</span>
+            </div>
+            <div class="row-item">
+              <span class="lbl">Waist & Length</span>
+              <span class="val">{{ user.measurements.waist }} • {{ user.measurements.lehengaLength }}</span>
+            </div>
+            <div class="row-item badge-row">
+              <span class="measurement-badge">
+                <i class="fa-solid fa-check"></i> {{ user.measurements.status }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Recent Commissions & Orders -->
+        <div class="detail-card">
+          <div class="card-title-row">
+            <i class="fa-solid fa-gem gold-icon"></i>
+            <h3>Recent Atelier Orders</h3>
+          </div>
+          <div class="orders-list" *ngIf="user.orders.length > 0">
+            <div class="order-mini-item" *ngFor="let ord of user.orders">
+              <img [src]="ord.image" [alt]="ord.piece" />
+              <div class="ord-info">
+                <h4>{{ ord.piece }}</h4>
+                <span class="ord-meta">{{ ord.id }} • {{ ord.date }}</span>
+                <span class="ord-status">{{ ord.status }}</span>
+                <span class="ord-price">{{ cartService.formatPrice(ord.total) }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="orders-empty" *ngIf="user.orders.length === 0">
+            <p>No active commissions yet.</p>
+            <a routerLink="/products" class="link-shop">Explore Collection &rarr;</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Action Navigation Footer -->
+      <div class="patron-footer-nav">
+        <a routerLink="/products" [queryParams]="{category: 'All'}" class="btn-gold-action">
+          <span>EXPLORE HAUTE COUTURE</span>
+          <i class="fa-solid fa-arrow-right-long"></i>
+        </a>
+        <a routerLink="/about" class="btn-outline-action">
+          <span>BOOK FREE CONSULTATION</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- ========================================================
+         VIEW B: NOT LOGGED IN - LUXURY LOGIN & SIGNUP FORMS
+         ======================================================== -->
+    <div class="auth-wrapper" *ngIf="!authService.isLoggedIn">
+      <div class="auth-card">
+        
+        <div class="auth-header text-center">
+          <span class="auth-eyebrow">HAUTE COUTURE SALON</span>
+          <h1 class="auth-title serif-heading">CLIENT PORTAL ACCESS</h1>
+          <p class="auth-sub">
+            Sign in to access your bespoke fitting archives, private commissions, and saved wishlists.
+          </p>
+        </div>
+
+        <!-- Auth Tabs (Login / Signup) -->
+        <div class="auth-tabs" role="tablist">
+          <button 
+            type="button" 
+            [class.active]="authTab === 'login'" 
+            (click)="authTab = 'login'"
+            role="tab"
+          >
+            SIGN IN
+          </button>
+          <button 
+            type="button" 
+            [class.active]="authTab === 'signup'" 
+            (click)="authTab = 'signup'"
+            role="tab"
+          >
+            CREATE ACCOUNT
+          </button>
+        </div>
+
+        <!-- TAB 1: LOGIN FORM -->
+        <form class="auth-form" *ngIf="authTab === 'login'" (submit)="onLogin($event)">
+          <div class="form-group">
+            <label>Email Address / Client ID</label>
+            <input 
+              type="email" 
+              [(ngModel)]="loginEmail" 
+              name="email" 
+              placeholder="name@domain.com" 
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label>Password</label>
+              <a href="javascript:void(0)" class="forgot-link">Forgot?</a>
+            </div>
+            <input 
+              type="password" 
+              [(ngModel)]="loginPass" 
+              name="pass" 
+              placeholder="••••••••" 
+              required 
+            />
+          </div>
+
+          <div class="form-check-row">
+            <label class="remember-label">
+              <input type="checkbox" [(ngModel)]="rememberMe" name="remember" />
+              <span>Remember this device</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-auth-submit">
+            ENTER ATELIER ACCOUNT
+          </button>
+
+          <!-- 1-Click Demo Login -->
+          <div class="demo-login-wrap">
+            <button type="button" class="btn-demo-signin" (click)="onDemoLogin()">
+              <i class="fa-solid fa-bolt gold-icon"></i>
+              <span>Instant VIP Demo Login</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- TAB 2: SIGN UP FORM -->
+        <form class="auth-form" *ngIf="authTab === 'signup'" (submit)="onSignup($event)">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input 
+              type="text" 
+              [(ngModel)]="signupName" 
+              name="signupName" 
+              placeholder="e.g. Princess Gayatri" 
+              required 
+            />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email Address *</label>
+              <input 
+                type="email" 
+                [(ngModel)]="signupEmail" 
+                name="signupEmail" 
+                placeholder="email@domain.com" 
+                required 
+              />
+            </div>
+            <div class="form-group">
+              <label>Phone / WhatsApp *</label>
+              <input 
+                type="tel" 
+                [(ngModel)]="signupPhone" 
+                name="signupPhone" 
+                placeholder="+91..." 
+                required 
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Create Password *</label>
+            <input 
+              type="password" 
+              [(ngModel)]="signupPass" 
+              name="signupPass" 
+              placeholder="Minimum 8 characters" 
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Primary Couture Interest</label>
+            <select [(ngModel)]="signupInterest" name="signupInterest">
+              <option value="Bridal Trousseau">Bridal Trousseau (Lehengas & Veils)</option>
+              <option value="Royal Sherwani">Royal Sherwani & Groom Regalia</option>
+              <option value="Pure Silk Saree">Authentic Kanjivaram / Banarasi Saree</option>
+              <option value="Occasion Gown">Evening Ballgown & Fusion Wear</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-auth-submit">
+            CREATE ATELIER PATRON PROFILE
+          </button>
+        </form>
+
+        <!-- Salon Privileges Footer -->
+        <div class="auth-privileges">
+          <div class="privilege-item">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Encrypted Vault</span>
+          </div>
+          <div class="privilege-item">
+            <i class="fa-solid fa-tape"></i>
+            <span>Bespoke Sizing</span>
+          </div>
+          <div class="privilege-item">
+            <i class="fa-solid fa-crown"></i>
+            <span>VIP Concierge</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+

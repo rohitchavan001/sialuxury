@@ -1,0 +1,67 @@
+<!-- Backdrop -->
+<div class="sidebar-backdrop" *ngIf="cartService.isSidebarOpen" (click)="close()"></div>
+
+<!-- Slideout Sidebar Panel -->
+<aside class="luxury-sidebar" [class.open]="cartService.isSidebarOpen">
+  <div class="sidebar-header">
+    <div class="sidebar-brand">
+      <span class="sub">HAUTE COUTURE</span>
+      <h3>SIA LUXURY</h3>
+    </div>
+    <button class="close-btn" (click)="close()" aria-label="Close Menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <div class="sidebar-body">
+    <div class="sidebar-section">
+      <span class="section-label">MAIN NAVIGATION</span>
+      <ul class="nav-links">
+        <li>
+          <a routerLink="/" (click)="close()"><i class="fa-solid fa-house gold-icon"></i> Home</a>
+        </li>
+        <li>
+          <a routerLink="/products" [queryParams]="{category: 'All'}" (click)="close()"><i class="fa-solid fa-gem gold-icon"></i> All Couture</a>
+        </li>
+        <li>
+          <a routerLink="/cart" (click)="close()"><i class="fa-solid fa-bag-shopping gold-icon"></i> Shopping Bag ({{ cartService.getCartCount() }})</a>
+        </li>
+        <li>
+          <a routerLink="/wishlist" (click)="close()"><i class="fa-regular fa-heart gold-icon"></i> Saved Wishlist ({{ cartService.wishlistIds.length }})</a>
+        </li>
+        <li>
+          <a routerLink="/about" (click)="close()"><i class="fa-solid fa-feather gold-icon"></i> About Maison</a>
+        </li>
+        <li>
+          <a routerLink="/profile" (click)="close()"><i class="fa-regular fa-user gold-icon"></i> Client Profile</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <span class="section-label">CURATED CATEGORIES</span>
+      <ul class="cat-links">
+        <li *ngFor="let cat of categories">
+          <a routerLink="/products" [queryParams]="{category: cat.query}" (click)="close()">
+            {{ cat.name }}
+            <i class="fa-solid fa-arrow-right-long arrow-icon"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-banner">
+      <span class="banner-tag">BRIDAL CONCIERGE</span>
+      <h4>Bespoke Virtual Fitting</h4>
+      <p>Schedule a personal styling session with master couturiers.</p>
+      <a routerLink="/products" (click)="close()" class="btn-outline-gold bespoke-btn">Book Appointment</a>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="contact-info">
+        <p><i class="fa-solid fa-phone gold-icon"></i> +1 (800) 742-5899</p>
+        <p><i class="fa-regular fa-envelope gold-icon"></i> concierge&#64;sialuxury.com</p>
+      </div>
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,70 @@
+<header class="sia-header">
+  <!-- Top Bar with Currency, Brand, and Utilities -->
+  <div class="header-top container">
+    <!-- Left: Currency and Search -->
+    <div class="header-left">
+      <div class="currency-dropdown">
+        <button class="currency-btn" (click)="toggleCurrencyMenu()">
+          <span>{{ cartService.currency }}</span>
+          <i class="fa-solid fa-chevron-down arrow-down"></i>
+        </button>
+        <div class="currency-menu" *ngIf="showCurrencyMenu">
+          <button (click)="selectCurrency('INR')">INR</button>
+          <button (click)="selectCurrency('USD')">USD</button>
+          <button (click)="selectCurrency('EUR')">EUR</button>
+        </div>
+      </div>
+
+      <button class="icon-btn search-toggle" (click)="showSearch = !showSearch" aria-label="Search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+
+      <div class="search-drawer" *ngIf="showSearch">
+        <input 
+          type="text" 
+          placeholder="Search collections..." 
+          [(ngModel)]="searchQuery" 
+          (keyup.enter)="onSearch()"
+          autofocus
+        />
+        <button (click)="onSearch()"><i class="fa-solid fa-arrow-right"></i></button>
+        <button (click)="showSearch = false"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+
+    <!-- Center: Brand Logo -->
+    <div class="header-center">
+      <a routerLink="/" class="brand-title">SIA LUXURY</a>
+    </div>
+
+    <!-- Right: User, Wishlist, Bag -->
+    <div class="header-right">
+      <a routerLink="/profile" class="icon-btn account-btn" title="Client Profile">
+        <i class="fa-regular fa-user"></i>
+      </a>
+      <a routerLink="/wishlist" class="icon-btn" title="Saved Wishlist">
+        <i class="fa-regular fa-heart"></i>
+        <span class="count-badge" *ngIf="cartService.wishlistIds.length > 0">{{ cartService.wishlistIds.length }}</span>
+      </a>
+      <button class="icon-btn cart-btn" (click)="toggleCartDrawer()" aria-label="Shopping Bag">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="count-badge" *ngIf="cartService.getCartCount() > 0">{{ cartService.getCartCount() }}</span>
+      </button>
+
+      <button class="mobile-menu-btn" (click)="toggleSidebar()" aria-label="Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Navigation Row -->
+  <nav class="header-nav">
+    <div class="container nav-links-wrap">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">HOME</a>
+      <a routerLink="/products" [queryParams]="{category: 'Lehenga'}" routerLinkActive="active">WOMEN</a>
+      <a routerLink="/products" [queryParams]="{category: 'Sherwani'}" routerLinkActive="active">MENS</a>
+      <a routerLink="/products" [queryParams]="{category: 'All'}" routerLinkActive="active">COLLECTION</a>
+      <a routerLink="/about" routerLinkActive="active">ABOUT</a>
+    </div>
+  </nav>
+</header>

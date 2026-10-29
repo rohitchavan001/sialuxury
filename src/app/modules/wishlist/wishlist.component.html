@@ -1,0 +1,96 @@
+<div class="wishlist-page">
+
+  <!-- Toast Notification -->
+  <div class="toast-bag" *ngIf="addedToastProduct">
+    <i class="fa-solid fa-check"></i>
+    <span>Added <strong>{{ addedToastProduct.name }}</strong> to your bag</span>
+  </div>
+
+  <div class="container">
+    <!-- Breadcrumb & Header -->
+    <header class="wishlist-header">
+      <nav class="sub-breadcrumb" aria-label="Breadcrumb">
+        <a routerLink="/">Home</a>
+        <span class="sep">/</span>
+        <span class="curr">Saved Wishlist</span>
+      </nav>
+      <span class="wishlist-eyebrow">CURATED ATELIER ARCHIVE</span>
+      <h1 class="wishlist-title serif-heading">SAVED CREATIONS</h1>
+      <p class="wishlist-subtitle" *ngIf="wishlistProducts.length > 0">
+        You have {{ wishlistProducts.length }} bespoke {{ wishlistProducts.length === 1 ? 'piece' : 'pieces' }} saved in your personal salon.
+      </p>
+    </header>
+
+    <!-- Toolbar when items exist -->
+    <div class="wishlist-toolbar" *ngIf="wishlistProducts.length > 0">
+      <span class="toolbar-count">{{ wishlistProducts.length }} {{ wishlistProducts.length === 1 ? 'Creation' : 'Creations' }}</span>
+      <div class="toolbar-actions">
+        <button class="btn-toolbar-bag" (click)="moveAllToBag()">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span>Add All to Bag</span>
+        </button>
+        <button class="btn-toolbar-clear" (click)="clearWishlist()">
+          <span>Clear Wishlist</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Populated Wishlist Grid -->
+    <div class="wishlist-grid" *ngIf="wishlistProducts.length > 0">
+      <div class="wishlist-card" *ngFor="let p of wishlistProducts">
+        
+        <!-- Image & Actions -->
+        <div class="card-media">
+          <a [routerLink]="['/product', p.id]">
+            <img [src]="p.image" [alt]="p.name" class="product-thumb" />
+          </a>
+          <button 
+            type="button" 
+            class="remove-wishlist-btn" 
+            (click)="removeFromWishlist(p.id, $event)" 
+            title="Remove from Wishlist"
+            aria-label="Remove item"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <span class="badge-tag" *ngIf="p.badge">{{ p.badge }}</span>
+        </div>
+
+        <!-- Info -->
+        <div class="card-info">
+          <span class="item-cat">{{ p.category }} • {{ p.fabric }}</span>
+          <h3 class="item-name serif-heading">
+            <a [routerLink]="['/product', p.id]">{{ p.name }}</a>
+          </h3>
+          <div class="item-price">
+            {{ cartService.formatPrice(p.price) }}
+          </div>
+
+          <button class="btn-move-bag" (click)="moveToBag(p, $event)">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span>Add to Bag</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="wishlist-empty-state" *ngIf="wishlistProducts.length === 0">
+      <div class="empty-icon-wrap">
+        <i class="fa-regular fa-heart"></i>
+      </div>
+      <span class="empty-tag">YOUR ARCHIVE IS EMPTY</span>
+      <h2 class="empty-title serif-heading">No Creations Saved Yet</h2>
+      <p class="empty-desc">
+        Explore our sovereign lehengas, authentic handwoven sarees, and bespoke sherwanis to curate your personal heirloom wishlist.
+      </p>
+      <a routerLink="/products" [queryParams]="{category: 'All'}" class="btn-explore-now">
+        <span>EXPLORE THE COLLECTION</span>
+        <i class="fa-solid fa-arrow-right-long"></i>
+      </a>
+    </div>
+
+  </div>
+</div>
+

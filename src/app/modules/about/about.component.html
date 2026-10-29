@@ -1,0 +1,252 @@
+<div class="about-page">
+
+  <!-- 1. EDITORIAL HERO -->
+  <section class="about-hero">
+    <div class="container about-hero-container">
+      <div class="about-breadcrumbs">
+        <a routerLink="/">HOME</a>
+        <span class="sep">/</span>
+        <span class="current">ABOUT US</span>
+      </div>
+
+      <div class="about-hero-content move-from-bottom">
+        <span class="about-eyebrow">HERITAGE WEAVES • BESPOKE ATELIER</span>
+        <h1 class="about-title serif-heading">OUR COUTURE HERITAGE</h1>
+        <p class="about-subtitle">
+          Where ancestral Indian heritage weaves meet contemporary haute couture silhouettes.
+        </p>
+        <div class="hero-decorative-line">
+          <span class="dot"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. SHORT MAISON STORY & ARTISANAL VISION -->
+  <section class="about-story-section">
+    <div class="container">
+      <div class="story-grid">
+        
+        <!-- Left: Atelier Craft Image -->
+        <div class="story-media-col move-from-left">
+          <div class="story-image-frame">
+            <img src="assets/thebeauty.png" alt="SIA Atelier Craftsmanship" class="story-img" />
+            <div class="story-frame-badge">
+              <span class="badge-accent"><i class="fa-solid fa-feather"></i></span>
+              <div class="badge-text">
+                <strong>ATELIER D'ART</strong>
+                <span>Preserving Living Heritage</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Short Story Narrative -->
+        <div class="story-content-col move-from-right">
+          <span class="section-eyebrow">OUR ETHOS</span>
+          <h2 class="section-heading serif-heading">Rooted in Heritage.<br>Crafted for Eternity.</h2>
+          
+          <p class="story-lead">
+            SIA LUXURY was founded to archive human touch, ancient loom techniques, and sovereign Indian grace in an era of fleeting trends.
+          </p>
+          <p class="story-sub">
+            Every creation is handwoven across Varanasi and Kanchipuram, then hand-embroidered by multi-generational <em>karigars</em>. We create living heirlooms made to be celebrated in and remembered across lifetimes.
+          </p>
+
+          <!-- Founder Quote -->
+          <div class="founder-quote-block">
+            <p class="quote-text">
+              “We don't merely tailor garments. We archive living culture in every golden thread.”
+            </p>
+            <span class="quote-author">— SIA LUXURY CREATIVE ATELIER</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. MAISON BY NUMBERS -->
+  <section class="about-stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card move-from-bottom" *ngFor="let stat of atelierStats; let idx = index" [style.transitionDelay]="(idx * 0.12) + 's'">
+          <div class="stat-value serif-heading">{{ stat.displayValue }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+          <div class="stat-desc">{{ stat.desc }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. FOUR PILLARS (Clean & Concise) -->
+  <section class="about-pillars-section">
+    <div class="container">
+      <div class="section-header-centered move-from-top">
+        <span class="section-eyebrow">OUR DEVOTION</span>
+        <h2 class="section-heading serif-heading">THE FOUR PILLARS OF OUR CRAFT</h2>
+        <div class="header-gold-dash"></div>
+      </div>
+
+      <div class="pillars-grid">
+        <div 
+          class="pillar-card move-from-bottom" 
+          *ngFor="let p of pillars; let i = index"
+          [style.transitionDelay]="(i * 0.12) + 's'"
+        >
+          <div class="pillar-card-top">
+            <span class="pillar-num">{{ p.num }}</span>
+            <div class="pillar-icon-box">
+              <i [class]="p.icon"></i>
+            </div>
+          </div>
+          <h3 class="pillar-title serif-heading">{{ p.title }}</h3>
+          <span class="pillar-tagline">{{ p.tagline }}</span>
+          <p class="pillar-desc">{{ p.description }}</p>
+          <div class="pillar-card-line"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. VISUAL ATELIER ARCHIVES (Image Showcase) -->
+  <section class="about-gallery-section">
+    <div class="container">
+      <div class="section-header-centered move-from-bottom">
+        <span class="section-eyebrow">ATELIER ARCHIVES</span>
+        <h2 class="section-heading serif-heading">BEHIND THE SEAMS</h2>
+      </div>
+
+      <div class="atelier-gallery-grid">
+        <div class="gallery-tile tile-large move-from-left">
+          <img src="assets/thebeauty1.png" alt="Hand-Embroidered Needlework" class="gallery-img" />
+          <div class="gallery-tile-overlay">
+            <span class="tile-tag">THE KARIGAR'S TOUCH</span>
+            <h4 class="tile-title">Hand-Embroidered Zardozi</h4>
+          </div>
+        </div>
+
+        <div class="gallery-tile tile-tall move-from-bottom">
+          <img src="assets/artofcelebration.png" alt="Sovereign Bridal Silhouette" class="gallery-img" />
+          <div class="gallery-tile-overlay">
+            <span class="tile-tag">OCCASION REGALIA</span>
+            <h4 class="tile-title">The Sovereign Bridal Silhouette</h4>
+          </div>
+        </div>
+
+        <div class="gallery-tile tile-wide move-from-right">
+          <img src="assets/reserveslot.png" alt="Private Atelier Fitting" class="gallery-img" />
+          <div class="gallery-tile-overlay">
+            <span class="tile-tag">BESPOKE EXPERIENCE</span>
+            <h4 class="tile-title">Private Fitting & Custom Tailoring</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. DEDICATED FREE CONSULTATION BOOKING & WHATSAPP SECTION -->
+  <section class="free-consultation-section">
+    <div class="container">
+      <div class="consultation-box move-from-bottom">
+        <div class="consultation-aura"></div>
+        
+        <span class="consultation-eyebrow">COMPLIMENTARY ATELIER SERVICE</span>
+        <h2 class="consultation-title serif-heading">Book Your Free Couture Consultation</h2>
+        <p class="consultation-desc">
+          Schedule a 1-on-1 personalized styling session with our senior bridal couturiers — virtual or in-person. Get expert guidance on silhouette, weaves, and bespoke fittings.
+        </p>
+
+        <!-- Two Action Buttons: Free Booking Modal + WhatsApp Button -->
+        <div class="consultation-actions">
+          <!-- Button 1: Opens Free Consultation Popup Modal -->
+          <button type="button" class="btn-book-consultation" (click)="openAppointmentModal()">
+            <i class="fa-regular fa-calendar-check"></i>
+            <span>BOOK FREE CONSULTATION</span>
+          </button>
+
+          <!-- Button 2: Direct WhatsApp Chat -->
+          <a [href]="whatsAppUrl" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-chat" aria-label="Chat on WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>CHAT ON WHATSAPP</span>
+          </a>
+        </div>
+
+        <div class="consultation-perks">
+          <span><i class="fa-solid fa-check gold-check"></i> 100% Free of charge</span>
+          <span><i class="fa-solid fa-check gold-check"></i> Dedicated Master Stylist</span>
+          <span><i class="fa-solid fa-check gold-check"></i> Virtual / In-Atelier</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. FREE CONSULTATION BOOKING POPUP MODAL -->
+  <div class="modal-backdrop" *ngIf="showAppointmentModal" (click)="closeAppointmentModal()">
+    <div class="appointment-dialog" (click)="$event.stopPropagation()">
+      <button class="close-modal-btn" (click)="closeAppointmentModal()" aria-label="Close dialog">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="modal-body-content" *ngIf="!bookingSuccess">
+        <span class="modal-tag">COMPLIMENTARY SERVICE</span>
+        <h3 class="modal-title serif-heading">Reserve Free Consultation</h3>
+        <p class="modal-desc">
+          Our senior couturiers will assist you with custom bridal styling, drape advice, and bespoke measurements.
+        </p>
+
+        <form (submit)="submitAppointment($event)" class="appointment-form">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" [(ngModel)]="clientName" name="name" placeholder="Your full name" required />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone / WhatsApp *</label>
+              <input type="tel" [(ngModel)]="clientPhone" name="phone" placeholder="+91 98765 43210" required />
+            </div>
+            <div class="form-group">
+              <label>Preferred Date</label>
+              <input type="date" [(ngModel)]="clientDate" name="date" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Category of Interest</label>
+            <select [(ngModel)]="selectedOccasion" name="occasion">
+              <option value="Bridal Trousseau">Bridal Trousseau & Lehenga</option>
+              <option value="Royal Sherwani">Royal Groom Sherwani</option>
+              <option value="Pure Silk Saree">Heritage Kanjivaram / Banarasi Saree</option>
+              <option value="Occasion Gown">Evening Gown & Fusion Silhouette</option>
+            </select>
+          </div>
+
+          <button type="submit" class="submit-inquiry-btn">
+            CONFIRM FREE RESERVATION
+          </button>
+        </form>
+
+        <!-- WhatsApp alternative link inside modal -->
+        <div class="modal-whatsapp-note">
+          <span>Prefer quick instant chat?</span>
+          <a [href]="whatsAppUrl" target="_blank" rel="noopener noreferrer" class="modal-wa-link">
+            <i class="fa-brands fa-whatsapp"></i> Chat directly on WhatsApp &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Success Confirmation State -->
+      <div class="modal-success-content" *ngIf="bookingSuccess">
+        <div class="success-icon-wrap">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h3 class="serif-heading">Consultation Reserved</h3>
+        <p>
+          Thank you! Our senior styling advisor will reach out to you via WhatsApp / Phone shortly to confirm your preferred slot.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>

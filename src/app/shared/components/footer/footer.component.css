@@ -1,0 +1,157 @@
+.luxury-footer {
+  background-color: #faf7f2;
+  border-top: 1px solid var(--border-light);
+  padding: 4.5rem 1.5rem 3.5rem;
+  color: var(--text-dark);
+}
+
+.footer-clean-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.footer-brand .brand-title {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  letter-spacing: 0.16em;
+  color: #1e1916;
+  margin-bottom: 0.4rem;
+  font-weight: 400;
+}
+
+.footer-brand .brand-tagline {
+  font-size: 0.76rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8c8277;
+  font-weight: 400;
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.6rem 2.4rem;
+}
+
+.footer-nav a {
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #3e3732;
+  text-decoration: none;
+  font-weight: 400;
+  transition: color 0.25s ease;
+}
+
+.footer-nav a:hover {
+  color: #9e6c1e;
+}
+
+.footer-whatsapp-wrap {
+  margin: 0.2rem 0;
+}
+
+.footer-whatsapp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  background-color: #25D366;
+  color: #ffffff;
+  padding: 0.65rem 1.6rem;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.25);
+  transition: all 0.3s ease;
+}
+
+.footer-whatsapp-pill i {
+  font-size: 1.15rem;
+}
+
+.footer-whatsapp-pill:hover {
+  background-color: #20ba59;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.38);
+  color: #ffffff;
+}
+
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.footer-social .social-wa-btn {
+  color: #25D366;
+  border-color: rgba(37, 211, 102, 0.35);
+}
+
+.footer-social .social-wa-btn:hover {
+  background: #25D366;
+  border-color: #25D366;
+  color: #ffffff;
+}
+
+.footer-social a {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a423c;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: #ffffff;
+}
+
+.footer-social a:hover {
+  background: #1e1916;
+  color: #ffffff;
+  border-color: #1e1916;
+  transform: translateY(-2px);
+}
+
+.footer-bottom-line {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  color: #9e958a;
+  text-transform: uppercase;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 480px;
+}
+
+@media (max-width: 768px) {
+  .luxury-footer {
+    padding: 3rem 1rem 2.5rem;
+  }
+  .footer-clean-inner {
+    gap: 1.4rem;
+  }
+  .footer-whatsapp-pill {
+    padding: 0.6rem 1.35rem;
+    font-size: 0.74rem;
+  }
+  .footer-brand .brand-title {
+    font-size: 1.55rem;
+  }
+  .footer-nav {
+    gap: 1rem 1.4rem;
+  }
+  .footer-nav a {
+    font-size: 0.72rem;
+  }
+}
