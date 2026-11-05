@@ -20,11 +20,16 @@ import { CartService } from '../../core/services/cart.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('desktopVideo') desktopVideo?: ElementRef<HTMLVideoElement>;
-  @ViewChild('mobileVideo') mobileVideo?: ElementRef<HTMLVideoElement>;
+  @ViewChild('heroVideo') heroVideo?: ElementRef<HTMLVideoElement>;
 
   private scrollObserver: IntersectionObserver | null = null;
   isMobile = false;
+
+  get videoSource(): string {
+    return this.isMobile
+      ? 'assets/sialuxury-hero-mobile.mp4'
+      : 'assets/sialuxury-hero.mp4';
+  }
 
   // Hero slides: Desktop high-res backgrounds and mobile dedicated artwork (with baked-in text)
   heroSlides = [
@@ -53,7 +58,14 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   checkMobile(): void {
     if (typeof window !== 'undefined') {
-      this.isMobile = window.innerWidth <= 768;
+      const wasMobile = this.isMobile;
+      this.isMobile = window.innerWidth <= 900;
+      if (wasMobile !== this.isMobile && this.heroVideo?.nativeElement) {
+        const el = this.heroVideo.nativeElement;
+        el.src = this.videoSource;
+        el.load();
+        el.play().catch(() => {});
+      }
     }
   }
 
@@ -396,17 +408,19 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   initVideoAutoplay(): void {
-    const playVideo = (v?: ElementRef<HTMLVideoElement>) => {
-      if (!v || !v.nativeElement) return;
-      const el = v.nativeElement;
-      el.muted = true;
-      el.defaultMuted = true;
-      el.playsInline = true;
-      el.loop = true;
+    if (!this.heroVideo || !this.heroVideo.nativeElement) return;
+    const el = this.heroVideo.nativeElement;
+    el.muted = true;
+    el.defaultMuted = true;
+    el.playsInline = true;
+    el.loop = true;
+    el.playbackRate = 1.0;
+
+    const tryPlay = () => {
       const playPromise = el.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
-          // Fallback on first user tap/click if device policy restricted it
+          // Fallback on first user tap/click if device battery saver restricted it
           const retry = () => {
             el.play().catch(() => {});
             document.removeEventListener('touchstart', retry);
@@ -418,17 +432,19 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     };
 
-    setTimeout(() => {
-      playVideo(this.desktopVideo);
-      playVideo(this.mobileVideo);
-    }, 50);
+    if (el.readyState >= 2) {
+      tryPlay();
+    } else {
+      el.addEventListener('loadeddata', tryPlay, { once: true });
+      el.addEventListener('canplay', tryPlay, { once: true });
+      setTimeout(tryPlay, 80);
+    }
 
     // Keep playing whenever browser tab comes back to view
     if (typeof document !== 'undefined') {
       document.addEventListener('visibilitychange', () => {
-        if (!document.hidden) {
-          playVideo(this.desktopVideo);
-          playVideo(this.mobileVideo);
+        if (!document.hidden && this.heroVideo?.nativeElement) {
+          this.heroVideo.nativeElement.play().catch(() => {});
         }
       });
     }

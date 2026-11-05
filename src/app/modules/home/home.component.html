@@ -1,9 +1,10 @@
-<!-- 1. HERO VIDEO BANNER -->
+<!-- 1. HERO VIDEO BANNER (Single High-Performance 4K/HD Video) -->
 <section class="hero-video-banner">
-  <!-- Desktop Hero Video -->
   <video 
-    #desktopVideo
-    class="hero-bg-video desktop-video" 
+    #heroVideo
+    class="hero-bg-video" 
+    [class.is-mobile-video]="isMobile"
+    [src]="videoSource"
     autoplay 
     muted 
     [muted]="true"
@@ -12,31 +13,9 @@
     webkit-playsinline
     preload="auto"
     disablePictureInPicture
+    disableRemotePlayback
     (ended)="replayVideo($event)"
-  >
-    <source src="assets/sialuxury-hero.mp4" type="video/mp4" />
-    <source src="sialuxury-hero.mp4" type="video/mp4" />
-    <source src="/sialuxury-hero.mp4" type="video/mp4" />
-  </video>
-
-  <!-- Mobile Optimized Hero Video -->
-  <video 
-    #mobileVideo
-    class="hero-bg-video mobile-video" 
-    autoplay 
-    muted 
-    [muted]="true"
-    loop 
-    playsinline 
-    webkit-playsinline
-    preload="auto"
-    disablePictureInPicture
-    (ended)="replayVideo($event)"
-  >
-    <source src="assets/sialuxury-hero-mobile.mp4" type="video/mp4" />
-    <source src="sialuxury-hero-mobile.mp4" type="video/mp4" />
-    <source src="/sialuxury-hero-mobile.mp4" type="video/mp4" />
-  </video>
+  ></video>
 
   <div class="hero-video-overlay"></div>
 
