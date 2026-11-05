@@ -2,10 +2,10 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: #d8b7ae; /* Peach Rose Blush from reference image */
+  background-color: #440B1A; /* Deep Royal Burgundy / Maroon */
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(60, 40, 35, 0.12);
-  box-shadow: 0 2px 14px rgba(45, 25, 20, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .header-top {
@@ -37,15 +37,15 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   padding: 0.2rem 0.55rem;
-  background: rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 2px;
-  color: #2b1f1d;
+  color: #ffffff;
 }
 
 .arrow-down {
   font-size: 0.6rem;
-  opacity: 0.75;
+  opacity: 0.85;
 }
 
 .currency-menu {
@@ -76,7 +76,7 @@
 
 .icon-btn {
   font-size: 1.05rem;
-  color: #2b1f1d;
+  color: #ffffff;
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -89,7 +89,7 @@
 }
 
 .icon-btn:hover {
-  color: #8a3f35;
+  color: #f5c2cd;
 }
 
 .search-drawer {
@@ -130,7 +130,7 @@
   font-family: var(--font-serif);
   font-size: 1.35rem;
   letter-spacing: 0.28em;
-  color: #1a0f0d;
+  color: #ffffff;
   font-weight: 500;
   text-decoration: none;
   display: inline-block;
@@ -151,8 +151,8 @@
   position: absolute;
   top: -4px;
   right: -6px;
-  background: #2b1f1d;
-  color: #ffffff;
+  background: #ffffff;
+  color: #440B1A;
   font-size: 0.55rem;
   font-weight: 700;
   width: 16px;
@@ -178,7 +178,7 @@
 .mobile-menu-btn {
   display: none;
   font-size: 1.15rem;
-  color: #2b1f1d;
+  color: #ffffff;
   padding: 0.25rem;
   background: transparent;
   border: none;
@@ -189,12 +189,12 @@
 }
 
 .mobile-menu-btn:hover {
-  color: #8a3f35;
+  color: #f5c2cd;
 }
 
 /* Navigation Links (Mahima Mahajan Style Multi-Menu Bar - Compact Height) */
 .header-nav {
-  border-top: 1px solid rgba(60, 40, 35, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding: 0.45rem 0 0.55rem;
   overflow-x: auto;
   scrollbar-width: none;
@@ -217,7 +217,7 @@
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.15em;
-  color: #2b1f1d;
+  color: #ffffff;
   position: relative;
   padding: 0.15rem 0;
   text-decoration: none;
@@ -225,7 +225,7 @@
 }
 
 .nav-links-wrap a:hover {
-  color: #8a3f35;
+  color: #f5c2cd;
 }
 
 .nav-links-wrap a::after {
@@ -236,7 +236,7 @@
   transform: translateX(-50%);
   width: 0;
   height: 1.5px;
-  background: #2b1f1d;
+  background: #ffffff;
   transition: width 0.3s ease;
 }
 
