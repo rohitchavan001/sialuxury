@@ -1127,73 +1127,111 @@
    5. DRESSED FOR THE MOMENT (Floating Carousel)
    -------------------------------------------------------- */
 .dressed-moment-section {
-  padding: 6rem 0 6.5rem;
-  background-color: var(--bg-body);
+  padding: 5.5rem 0 6rem;
+  background-color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  --card-w: 260px;
+  --card-h: 370px;
+  --card-gap: 24px;
+  --card-step: calc(var(--card-w) + var(--card-gap));
+}
+
+.moment-header-wrap {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding: 0 1rem;
+}
+
+.moment-header-wrap .section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+  letter-spacing: 0.22em;
+  color: #1a0f0d;
+  font-weight: 400;
+  margin: 0;
 }
 
 .moment-carousel-wrap {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1rem;
-}
-
-.carousel-arrow {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: 1px solid var(--border-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-dark);
-  font-size: 1.1rem;
-  transition: var(--transition-smooth);
-  z-index: 5;
-  background: #ffffff;
-}
-
-.carousel-arrow:hover {
-  background: var(--text-dark);
-  color: #ffffff;
-  border-color: var(--text-dark);
-  transform: scale(1.04);
-}
-
-.moment-cards-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.8rem;
   width: 100%;
-  max-width: 1140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.moment-viewport {
+  width: 100%;
   overflow: hidden;
-  padding: 2.5rem 0;
+  padding: 3rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.moment-track {
+  display: flex;
+  align-items: center;
+  gap: var(--card-gap);
+  will-change: transform;
+  transform: translateX(calc(-1 * var(--track-offset, 0) * var(--card-step)));
+  transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.moment-track.no-transition {
+  transition: none !important;
 }
 
 .moment-card {
-  cursor: pointer;
-  transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
   flex-shrink: 0;
+  width: var(--card-w);
+  height: var(--card-h);
+  cursor: pointer;
+  transform: scale(0.85);
+  opacity: 0.5;
+  z-index: 1;
+  transform-origin: center center;
+  transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1),
+              opacity 0.65s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Neighbor cards (Left and Right of Center) */
+.moment-card.is-neighbor {
+  transform: scale(0.92);
+  opacity: 0.88;
+  z-index: 3;
+}
+
+/* Center Prominent Tall Card (Matches uploaded wireframe) */
+.moment-card.is-center {
+  transform: scale(1.22);
+  opacity: 1;
+  z-index: 10;
+  cursor: default;
 }
 
 .moment-card-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #ece8e3;
+  overflow: hidden;
+  border-radius: 0;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.65s ease;
+}
+
+.moment-card.is-center .moment-card-inner {
+  box-shadow: 0 18px 46px rgba(30, 20, 15, 0.16);
+  border: 1px solid rgba(200, 157, 71, 0.35);
 }
 
 .moment-img-wrap {
+  width: 100%;
+  height: 100%;
   position: relative;
-  width: 250px;
-  height: 380px;
   overflow: hidden;
-  border-radius: 0 !important;
-  background: var(--bg-card);
-  box-shadow: var(--shadow-subtle);
-  transition: all 0.55s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .moment-img-wrap img {
@@ -1201,38 +1239,11 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  border-radius: 0 !important;
-  transition: transform 0.6s ease;
+  display: block;
+  transition: transform 0.8s ease;
 }
 
-/* Side Cards: cleanly framed and balanced */
-.moment-card.left-card .moment-img-wrap,
-.moment-card.right-card .moment-img-wrap {
-  opacity: 0.85;
-  transform: scale(0.92);
-}
-
-.moment-card.left-card:hover .moment-img-wrap,
-.moment-card.right-card:hover .moment-img-wrap {
-  opacity: 1;
-  transform: scale(0.95);
-}
-
-/* CENTER FLOATING CARD EFFECT: Perfectly centered and elevated */
-.moment-card.center-floating {
-  z-index: 4;
-}
-
-.moment-card.center-floating .moment-img-wrap {
-  width: 290px;
-  height: 440px;
-  transform: translateY(-8px) scale(1);
-  box-shadow: var(--shadow-float-hover);
-  border: 1px solid rgba(200, 157, 71, 0.25);
-  opacity: 1;
-}
-
-.moment-card.center-floating:hover .moment-img-wrap img {
+.moment-card.is-center:hover .moment-img-wrap img {
   transform: scale(1.05);
 }
 
@@ -1241,78 +1252,168 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0.8rem;
+  padding: 0.75rem 1rem;
   background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   transform: translateY(100%);
-  transition: transform 0.3s ease;
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 5;
 }
 
-.moment-card.center-floating:hover .moment-card-actions {
+.moment-card.is-center:hover .moment-card-actions {
   transform: translateY(0);
 }
 
 .quick-link {
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--text-dark);
+  letter-spacing: 0.12em;
+  color: #1a0f0d;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.quick-link:hover {
+  color: #8a3f35;
 }
 
 .add-btn {
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.1em;
-  color: var(--gold-accent);
+  color: #8a3f35;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
 }
 
 .moment-info {
-  margin-top: 1.2rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(20, 12, 10, 0.82) 100%);
+  color: #ffffff;
   text-align: center;
-  animation: fadeInMoment 0.3s ease forwards;
+  transition: opacity 0.3s ease;
+}
+
+.moment-card.is-center:hover .moment-info {
+  opacity: 0;
 }
 
 .moment-name {
   font-family: var(--font-serif);
-  font-size: 1rem;
-  letter-spacing: 0.08em;
-  margin-bottom: 0.2rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.25rem;
+  color: #ffffff;
 }
 
 .moment-price {
-  font-size: 0.88rem;
-  font-weight: 500;
-  color: var(--text-dark);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #e6c594;
 }
 
+/* Arrows */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(40, 25, 20, 0.15);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a0f0d;
+  font-size: 1.15rem;
+  cursor: pointer;
+  z-index: 20;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.carousel-arrow.prev {
+  left: 2rem;
+}
+
+.carousel-arrow.next {
+  right: 2rem;
+}
+
+.carousel-arrow:hover {
+  background: #1a0f0d;
+  color: #ffffff;
+  border-color: #1a0f0d;
+  transform: translateY(-50%) scale(1.06);
+}
+
+/* Dots */
 .carousel-dots {
   display: flex;
   justify-content: center;
-  gap: 0.6rem;
-  margin-top: 1rem;
+  gap: 0.65rem;
+  margin-top: 1.2rem;
 }
 
-.carousel-dots span {
-  width: 7px;
-  height: 7px;
+.dot-btn {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: #d8d8d8;
+  background: #d4cfc8;
+  border: none;
+  padding: 0;
   cursor: pointer;
-  transition: var(--transition-smooth);
+  transition: all 0.35s ease;
 }
 
-.carousel-dots span.active {
-  background: var(--text-dark);
-  width: 22px;
+.dot-btn.active {
+  background: #1a0f0d;
+  width: 24px;
   border-radius: 4px;
 }
 
-@keyframes fadeInMoment {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .dressed-moment-section {
+    --card-w: 230px;
+    --card-h: 330px;
+    --card-gap: 20px;
+  }
+  .carousel-arrow.prev { left: 1rem; }
+  .carousel-arrow.next { right: 1rem; }
+}
+
+@media (max-width: 768px) {
+  .dressed-moment-section {
+    padding: 3.5rem 0 4rem;
+    --card-w: 64vw;
+    --card-h: 92vw;
+    --card-gap: 16px;
+  }
+  .moment-viewport {
+    padding: 2rem 0;
+  }
+  .moment-card.is-center {
+    transform: scale(1.12);
+  }
+  .carousel-arrow {
+    width: 38px;
+    height: 38px;
+    font-size: 0.95rem;
+  }
+  .carousel-arrow.prev { left: 0.5rem; }
+  .carousel-arrow.next { right: 0.5rem; }
 }
 
 /* --------------------------------------------------------

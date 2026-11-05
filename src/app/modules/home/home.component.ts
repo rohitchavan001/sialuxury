@@ -157,12 +157,20 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       image: 'assets/categories/Fusion.png',
     },
   ];
-  activeMomentIndex = 2;
-  dotIds = [1, 2, 3, 4, 5];
+
+  // Tripled array for seamless infinite sliding with 0 pop
+  displayMoments = [
+    ...this.momentLooks,
+    ...this.momentLooks,
+    ...this.momentLooks,
+  ];
+  currentTrackIndex = 7; // Index 7 is item 3 (Sherwani) in the middle set
+  enableTrackTransition = true;
+  isSliding = false;
+  dotIds = [0, 1, 2, 3, 4];
 
   get activeDotIndex(): number {
-    const centerItem = this.momentLooks[2];
-    return centerItem ? this.dotIds.indexOf(centerItem.id) : 0;
+    return ((this.currentTrackIndex % 5) + 5) % 5;
   }
   autoScrollTimer: any = null;
 
@@ -618,46 +626,55 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.startTyping();
   }
 
-  // Carousel controls for DRESSED FOR THE MOMENT
+  // Carousel controls for DRESSED FOR THE MOMENT - Smooth Slide Transitions
   prevMoment(): void {
-    const last = this.momentLooks.pop();
-    if (last) {
-      this.momentLooks.unshift(last);
-    }
-    this.startAutoScroll();
+    if (this.isSliding) return;
+    this.isSliding = true;
+    this.enableTrackTransition = true;
+    this.currentTrackIndex--;
+    this.handleTrackWrap();
   }
 
   nextMoment(): void {
-    const first = this.momentLooks.shift();
-    if (first) {
-      this.momentLooks.push(first);
-    }
+    if (this.isSliding) return;
+    this.isSliding = true;
+    this.enableTrackTransition = true;
+    this.currentTrackIndex++;
+    this.handleTrackWrap();
   }
 
   setMoment(index: number): void {
-    const diff = index - 2;
-    if (diff > 0) {
-      for (let k = 0; k < diff; k++) {
-        const first = this.momentLooks.shift();
-        if (first) this.momentLooks.push(first);
-      }
-    } else if (diff < 0) {
-      for (let k = 0; k < Math.abs(diff); k++) {
-        const last = this.momentLooks.pop();
-        if (last) this.momentLooks.unshift(last);
-      }
-    }
-    this.startAutoScroll();
+    if (this.isSliding || index === this.currentTrackIndex) return;
+    this.isSliding = true;
+    this.enableTrackTransition = true;
+    this.currentTrackIndex = index;
+    this.handleTrackWrap();
   }
 
   goToDot(dotIdx: number): void {
-    const targetId = this.dotIds[dotIdx];
-    const currentIndex = this.momentLooks.findIndex(
-      (item) => item.id === targetId,
-    );
-    if (currentIndex !== -1) {
-      this.setMoment(currentIndex);
-    }
+    if (this.isSliding) return;
+    const currentDot = this.activeDotIndex;
+    let diff = dotIdx - currentDot;
+    if (diff > 2) diff -= 5;
+    if (diff < -2) diff += 5;
+    if (diff === 0) return;
+    this.isSliding = true;
+    this.enableTrackTransition = true;
+    this.currentTrackIndex += diff;
+    this.handleTrackWrap();
+  }
+
+  handleTrackWrap(): void {
+    setTimeout(() => {
+      this.isSliding = false;
+      if (this.currentTrackIndex >= 12) {
+        this.enableTrackTransition = false;
+        this.currentTrackIndex -= 5;
+      } else if (this.currentTrackIndex <= 2) {
+        this.enableTrackTransition = false;
+        this.currentTrackIndex += 5;
+      }
+    }, 620);
   }
 
   // Touch swipe support for mobile

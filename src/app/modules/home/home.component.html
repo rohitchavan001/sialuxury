@@ -110,51 +110,66 @@
 
 <!-- 5. DRESSED FOR THE MOMENT (Carousel with Floating Image Cards) -->
 <section class="dressed-moment-section">
-  <div class="container">
+  <div class="moment-header-wrap">
     <h2 class="section-title serif-heading">DRESSED FOR THE MOMENT</h2>
+  </div>
 
-    <div class="moment-carousel-wrap" (mouseenter)="stopAutoScroll()" (mouseleave)="startAutoScroll()" (touchstart)="onMomentTouchStart($event)" (touchend)="onMomentTouchEnd($event)">
-      <!-- Carousel Arrows -->
-      <button class="carousel-arrow prev" (click)="prevMoment()" aria-label="Previous">
-        <i class="fa-solid fa-arrow-left-long"></i>
-      </button>
+  <div 
+    class="moment-carousel-wrap" 
+    (touchstart)="onMomentTouchStart($event)" 
+    (touchend)="onMomentTouchEnd($event)"
+  >
+    <!-- Carousel Arrows -->
+    <button class="carousel-arrow prev" (click)="prevMoment()" aria-label="Previous Look">
+      <i class="fa-solid fa-arrow-left-long"></i>
+    </button>
 
-      <div class="moment-cards-container">
+    <div class="moment-viewport">
+      <div 
+        class="moment-track" 
+        [class.no-transition]="!enableTrackTransition"
+        [style.--track-offset]="currentTrackIndex - 7"
+      >
         <div
           class="moment-card"
-          *ngFor="let item of momentLooks; let i = index"
-          [class.center-floating]="i === 2"
-          [class.left-card]="i < 2"
-          [class.right-card]="i > 2"
+          *ngFor="let item of displayMoments; let i = index"
+          [class.is-center]="i === currentTrackIndex"
+          [class.is-neighbor]="i === currentTrackIndex - 1 || i === currentTrackIndex + 1"
+          [class.is-outer]="i <= currentTrackIndex - 2 || i >= currentTrackIndex + 2"
           (click)="setMoment(i)"
         >
           <div class="moment-card-inner">
             <div class="moment-img-wrap">
               <img [src]="item.image" [alt]="item.title" />
-              <div class="moment-card-actions" *ngIf="i === 2">
-                <a [routerLink]="['/product', item.id]" class="quick-link">View Look</a>
+              <div class="moment-card-actions" *ngIf="i === currentTrackIndex">
+                <a [routerLink]="['/product', item.id]" class="quick-link" (click)="$event.stopPropagation()">View Look</a>
                 <button class="add-btn" (click)="addToCart(item); $event.stopPropagation()">+ Quick Bag</button>
               </div>
             </div>
-            <div class="moment-info" *ngIf="i === 2">
+            <div class="moment-info" *ngIf="i === currentTrackIndex">
               <h3 class="moment-name">{{ item.title }}</h3>
               <span class="moment-price">{{ cartService.formatPrice(item.price) }}</span>
             </div>
           </div>
         </div>
       </div>
-      <button class="carousel-arrow next" (click)="nextMoment()" aria-label="Next">
-        <i class="fa-solid fa-arrow-right-long"></i>
-      </button>
     </div>
 
-    <!-- Carousel Indicator Dots -->
-    <div class="carousel-dots">
-      <span 
-        *ngFor="let id of dotIds; let idx = index" 
-        [class.active]="idx === activeDotIndex"
-        (click)="goToDot(idx)" ></span>
-    </div>
+    <button class="carousel-arrow next" (click)="nextMoment()" aria-label="Next Look">
+      <i class="fa-solid fa-arrow-right-long"></i>
+    </button>
+  </div>
+
+  <!-- Carousel Indicator Dots -->
+  <div class="carousel-dots">
+    <button 
+      type="button"
+      class="dot-btn"
+      *ngFor="let id of dotIds; let idx = index" 
+      [class.active]="idx === activeDotIndex"
+      (click)="goToDot(idx)"
+      [attr.aria-label]="'Go to slide ' + (idx + 1)"
+    ></button>
   </div>
 </section>
 
