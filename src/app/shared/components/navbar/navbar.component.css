@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: #d8b7ae; /* Exact Peach Rose Blush from reference image */
+  background-color: #d8b7ae; /* Peach Rose Blush from reference image */
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(60, 40, 35, 0.12);
   box-shadow: 0 2px 14px rgba(45, 25, 20, 0.05);
