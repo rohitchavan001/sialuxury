@@ -5,7 +5,7 @@
 <aside class="luxury-sidebar" [class.open]="cartService.isSidebarOpen">
   <div class="sidebar-header">
     <div class="sidebar-brand">
-      <span class="sub">HAUTE COUTURE</span>
+      <span class="sub">EXCLUSIVE COLLECTION</span>
       <h3>SIA LUXURY</h3>
     </div>
     <button class="close-btn" (click)="close()" aria-label="Close Menu">
@@ -14,53 +14,75 @@
   </div>
 
   <div class="sidebar-body">
+    <!-- Quick Utility Bar for Mobile -->
+    <div class="sidebar-quick-bar">
+      <a routerLink="/wishlist" (click)="close()" class="quick-pill">
+        <i class="fa-regular fa-heart"></i>
+        <span>Wishlist ({{ cartService.wishlistIds.length }})</span>
+      </a>
+      <a routerLink="/profile" (click)="close()" class="quick-pill">
+        <i class="fa-regular fa-user"></i>
+        <span>Profile</span>
+      </a>
+    </div>
+
+    <!-- 1. Main Collections -->
     <div class="sidebar-section">
-      <span class="section-label">MAIN NAVIGATION</span>
-      <ul class="nav-links">
-        <li>
-          <a routerLink="/" (click)="close()"><i class="fa-solid fa-house gold-icon"></i> Home</a>
-        </li>
-        <li>
-          <a routerLink="/products" [queryParams]="{category: 'All'}" (click)="close()"><i class="fa-solid fa-gem gold-icon"></i> All Couture</a>
-        </li>
-        <li>
-          <a routerLink="/cart" (click)="close()"><i class="fa-solid fa-bag-shopping gold-icon"></i> Shopping Bag ({{ cartService.getCartCount() }})</a>
-        </li>
-        <li>
-          <a routerLink="/wishlist" (click)="close()"><i class="fa-regular fa-heart gold-icon"></i> Saved Wishlist ({{ cartService.wishlistIds.length }})</a>
-        </li>
-        <li>
-          <a routerLink="/about" (click)="close()"><i class="fa-solid fa-feather gold-icon"></i> About Maison</a>
-        </li>
-        <li>
-          <a routerLink="/profile" (click)="close()"><i class="fa-regular fa-user gold-icon"></i> Client Profile</a>
+      <span class="section-label">COLLECTIONS</span>
+      <ul class="couture-nav-list">
+        <li *ngFor="let item of mainMenus">
+          <a [routerLink]="item.path" [queryParams]="item.query ? {category: item.query} : null" (click)="close()">
+            <span class="menu-name">{{ item.name }}</span>
+            <span class="menu-badge" *ngIf="item.badge">{{ item.badge }}</span>
+            <i class="fa-solid fa-chevron-right arrow-icon" *ngIf="!item.badge"></i>
+          </a>
         </li>
       </ul>
     </div>
 
+    <!-- 2. Women's Categories -->
     <div class="sidebar-section">
-      <span class="section-label">CURATED CATEGORIES</span>
+      <span class="section-label">WOMEN</span>
       <ul class="cat-links">
-        <li *ngFor="let cat of categories">
+        <li *ngFor="let cat of womenCategories">
           <a routerLink="/products" [queryParams]="{category: cat.query}" (click)="close()">
-            {{ cat.name }}
+            <span>{{ cat.name }}</span>
             <i class="fa-solid fa-arrow-right-long arrow-icon"></i>
           </a>
         </li>
       </ul>
     </div>
 
-    <div class="sidebar-banner">
-      <span class="banner-tag">BRIDAL CONCIERGE</span>
-      <h4>Bespoke Virtual Fitting</h4>
-      <p>Schedule a personal styling session with master couturiers.</p>
-      <a routerLink="/products" (click)="close()" class="btn-outline-gold bespoke-btn">Book Appointment</a>
+    <!-- 3. Men's Categories -->
+    <div class="sidebar-section">
+      <span class="section-label">MEN</span>
+      <ul class="cat-links">
+        <li *ngFor="let cat of menCategories">
+          <a routerLink="/products" [queryParams]="{category: cat.query}" (click)="close()">
+            <span>{{ cat.name }}</span>
+            <i class="fa-solid fa-arrow-right-long arrow-icon"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 4. Quick Help Links -->
+    <div class="sidebar-section">
+      <span class="section-label">MORE</span>
+      <ul class="nav-links">
+        <li>
+          <a routerLink="/about" (click)="close()"><i class="fa-regular fa-circle-question gold-icon"></i> About Us</a>
+        </li>
+        <li>
+          <a routerLink="/cart" (click)="close()"><i class="fa-solid fa-bag-shopping gold-icon"></i> Bag ({{ cartService.getCartCount() }})</a>
+        </li>
+      </ul>
     </div>
 
     <div class="sidebar-footer">
       <div class="contact-info">
-        <p><i class="fa-solid fa-phone gold-icon"></i> +1 (800) 742-5899</p>
-        <p><i class="fa-regular fa-envelope gold-icon"></i> concierge&#64;sialuxury.com</p>
+        <p><i class="fa-solid fa-phone gold-icon"></i> +91 98765 43210</p>
+        <p><i class="fa-regular fa-envelope gold-icon"></i> help&#64;sialuxury.com</p>
       </div>
     </div>
   </div>

@@ -66,6 +66,80 @@
   color: var(--gold-accent);
 }
 
+.sidebar-quick-bar {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.quick-pill {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.6rem 0.5rem;
+  background: #f7f5f2;
+  border: 1px solid rgba(200, 157, 71, 0.25);
+  border-radius: 2px;
+  color: var(--text-dark, #1e1916);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.quick-pill:hover {
+  background: var(--text-dark, #1e1916);
+  color: #ffffff;
+}
+
+.couture-nav-list {
+  list-style: none;
+}
+
+.couture-nav-list li {
+  margin-bottom: 0.25rem;
+}
+
+.couture-nav-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.6rem;
+  min-height: 44px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  color: var(--text-dark, #1e1916);
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.couture-nav-list a:hover {
+  background: #fdfaf6;
+  padding-left: 0.85rem;
+  color: var(--gold-accent, #b38b59);
+}
+
+.menu-name {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.menu-badge {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.45rem;
+  background: rgba(179, 139, 89, 0.12);
+  color: var(--gold-accent, #b38b59);
+  font-weight: 600;
+  border-radius: 1px;
+}
+
 .sidebar-body {
   flex: 1;
   overflow-y: auto;

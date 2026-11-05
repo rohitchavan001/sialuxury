@@ -1,4 +1,12 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, HostListener, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  HostListener,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductService } from '../../core/services/product.service';
@@ -12,6 +20,9 @@ import { CartService } from '../../core/services/cart.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('desktopVideo') desktopVideo?: ElementRef<HTMLVideoElement>;
+  @ViewChild('mobileVideo') mobileVideo?: ElementRef<HTMLVideoElement>;
+
   private scrollObserver: IntersectionObserver | null = null;
   isMobile = false;
 
@@ -54,26 +65,58 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   private cursorTimer: any = null;
   private typingIndex = 0;
 
-  // Shop by Category with authentic local maison imagery
+  // Main Curated Categories
   shopCategories = [
     {
-      name: 'LEHENGA',
+      name: 'FESTIVE EDIT',
       query: 'Lehenga',
       image: 'assets/categories/lehenga.png',
     },
     {
-      name: 'FUSION WEAR',
-      query: 'Gown',
+      name: 'NEW ARRIVALS',
+      query: 'All',
       image: 'assets/categories/Fusion.png',
     },
-    { name: 'SAREES', query: 'Saree', image: 'assets/categories/Saree.png' },
-    { name: 'GOWN', query: 'Gown', image: 'assets/categories/Gown.png' },
     {
-      name: 'SHERWANI',
+      name: 'MENSWEAR',
       query: 'Sherwani',
       image: 'assets/categories/Sherwani.png',
     },
-    { name: 'KURTAS', query: 'Sherwani', image: 'assets/categories/kurta.png' },
+    {
+      name: 'WOMENSWEAR',
+      query: 'Saree',
+      image: 'assets/categories/Saree.png',
+    },
+  ];
+
+  // Specific Curated Sections
+  menswearItems: any[] = [];
+  womenswearItems: any[] = [];
+  festivalEditItems: any[] = [];
+  newArrivalItems: any[] = [];
+
+  // Secondary Heritage Categories Section (Simple text, no crowded descriptions)
+  heritageCategories = [
+    {
+      name: 'CELEBRITY PICKS',
+      query: 'Gown',
+      image: 'assets/categories/Gown.png',
+    },
+    {
+      name: 'SHERWANIS',
+      query: 'Sherwani',
+      image: 'assets/categories/kurta.png',
+    },
+    {
+      name: 'BANARASI SAREES',
+      query: 'Saree',
+      image: 'assets/artofcelebration.png',
+    },
+    {
+      name: 'BRIDAL LEHENGAS',
+      query: 'Lehenga',
+      image: 'assets/thebeauty.png',
+    },
   ];
 
   // Carousel items for "DRESSED FOR THE MOMENT" with refreshed lookbook pieces
@@ -135,6 +178,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       fabric: 'Raw Matka Silk with Thread Embroidery',
       desc: 'Tailored for sovereign occasions, featuring tone-on-tone embroidery and refined ceremonial structure.',
     },
+
     {
       id: 6,
       name: 'Fine Details',
@@ -313,10 +357,81 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.startHeroAutoScroll();
     this.startTyping();
     this.startCursorBlink();
+    this.initCategorySections();
+  }
+
+  initCategorySections(): void {
+    const all = this.productService.products;
+    
+    // Menswear: Sherwanis & Kurtas
+    this.menswearItems = all.filter((p) => p.category === 'Sherwani').slice(0, 4);
+
+    // Womenswear: Lehengas, Sarees & Anarkalis
+    this.womenswearItems = all
+      .filter((p) => p.category === 'Lehenga' || p.category === 'Saree' || p.category === 'Anarkali')
+      .slice(0, 4);
+
+    // Festival Edits: rich celebratory wear
+    this.festivalEditItems = all
+      .filter((p) => p.badge === 'BESTSELLER' || p.price > 1200)
+      .slice(0, 4);
+
+    // New Arrivals: latest pieces or flagged with NEW
+    this.newArrivalItems = all
+      .filter((p) => p.badge === 'NEW' || p.id % 2 === 0)
+      .slice(0, 4);
   }
 
   ngAfterViewInit(): void {
+    this.initVideoAutoplay();
     this.initScrollAnimations();
+  }
+
+  initVideoAutoplay(): void {
+    const playVideo = (v?: ElementRef<HTMLVideoElement>) => {
+      if (!v || !v.nativeElement) return;
+      const el = v.nativeElement;
+      el.muted = true;
+      el.defaultMuted = true;
+      el.playsInline = true;
+      el.loop = true;
+      const playPromise = el.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Fallback on first user tap/click if device policy restricted it
+          const retry = () => {
+            el.play().catch(() => {});
+            document.removeEventListener('touchstart', retry);
+            document.removeEventListener('click', retry);
+          };
+          document.addEventListener('touchstart', retry, { once: true });
+          document.addEventListener('click', retry, { once: true });
+        });
+      }
+    };
+
+    setTimeout(() => {
+      playVideo(this.desktopVideo);
+      playVideo(this.mobileVideo);
+    }, 50);
+
+    // Keep playing whenever browser tab comes back to view
+    if (typeof document !== 'undefined') {
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          playVideo(this.desktopVideo);
+          playVideo(this.mobileVideo);
+        }
+      });
+    }
+  }
+
+  replayVideo(event: Event): void {
+    const video = event.target as HTMLVideoElement;
+    if (video) {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
   }
 
   initScrollAnimations(): void {
@@ -324,7 +439,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
     setTimeout(() => {
       const animElements = document.querySelectorAll(
-        '.move-from-left, .move-from-right, .move-from-top, .move-from-bottom, .celebration-pills'
+        '.move-from-left, .move-from-right, .move-from-top, .move-from-bottom, .celebration-pills',
       );
 
       const celPills = document.querySelector('.celebration-pills');
@@ -351,7 +466,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
           {
             rootMargin: '0px 0px -30px 0px',
             threshold: 0.08,
-          }
+          },
         );
 
         animElements.forEach((el) => this.scrollObserver?.observe(el));

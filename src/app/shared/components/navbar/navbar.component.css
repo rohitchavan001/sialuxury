@@ -2,18 +2,18 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border-light);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  background-color: #d8b7ae; /* Exact Peach Rose Blush from reference image */
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(60, 40, 35, 0.12);
+  box-shadow: 0 2px 14px rgba(45, 25, 20, 0.05);
 }
 
 .header-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 1.2rem;
-  padding-bottom: 0.8rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.55rem;
   position: relative;
 }
 
@@ -21,7 +21,7 @@
 .header-left {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: 1rem;
   flex: 1;
 }
 
@@ -36,15 +36,16 @@
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.08em;
-  padding: 0.25rem 0.6rem;
-  background: var(--bg-light-gray);
+  padding: 0.2rem 0.55rem;
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 2px;
-  color: var(--text-dark);
+  color: #2b1f1d;
 }
 
 .arrow-down {
   font-size: 0.6rem;
-  opacity: 0.7;
+  opacity: 0.75;
 }
 
 .currency-menu {
@@ -53,7 +54,7 @@
   left: 0;
   background: #ffffff;
   border: 1px solid var(--border-light);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-radius: 2px;
   display: flex;
   flex-direction: column;
@@ -65,25 +66,30 @@
   padding: 0.4rem 0.8rem;
   font-size: 0.72rem;
   text-align: left;
+  color: #1e1916;
 }
 
 .currency-menu button:hover {
   background: #f5f5f5;
-  color: var(--gold-accent);
+  color: var(--gold-accent, #c89d47);
 }
 
 .icon-btn {
   font-size: 1.05rem;
-  color: var(--text-dark);
+  color: #2b1f1d;
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.3rem;
+  padding: 0.25rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.25s ease;
 }
 
 .icon-btn:hover {
-  color: var(--gold-accent);
+  color: #8a3f35;
 }
 
 .search-drawer {
@@ -122,13 +128,14 @@
 
 .brand-title {
   font-family: var(--font-serif);
-  font-size: 2.1rem;
-  letter-spacing: 0.35em;
-  color: var(--text-dark);
-  font-weight: 400;
+  font-size: 1.35rem;
+  letter-spacing: 0.28em;
+  color: #1a0f0d;
+  font-weight: 500;
   text-decoration: none;
   display: inline-block;
-  margin-left: 0.35em; /* Optical centering */
+  margin-left: 0.28em; /* Optical centering */
+  transition: opacity 0.25s ease;
 }
 
 /* Right */
@@ -136,7 +143,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 1.4rem;
+  gap: 1.2rem;
   flex: 1;
 }
 
@@ -144,8 +151,8 @@
   position: absolute;
   top: -4px;
   right: -6px;
-  background: var(--text-dark);
-  color: #fff;
+  background: #2b1f1d;
+  color: #ffffff;
   font-size: 0.55rem;
   font-weight: 700;
   width: 16px;
@@ -156,33 +163,69 @@
   justify-content: center;
 }
 
+.mobile-search-btn {
+  display: none;
+}
+
+.desktop-search-btn {
+  display: inline-flex;
+}
+
+.mobile-search-bar {
+  display: none;
+}
+
 .mobile-menu-btn {
   display: none;
   font-size: 1.15rem;
-  color: var(--text-dark);
-  padding: 0.3rem;
+  color: #2b1f1d;
+  padding: 0.25rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.25s ease;
 }
 
-/* Navigation Links */
+.mobile-menu-btn:hover {
+  color: #8a3f35;
+}
+
+/* Navigation Links (Mahima Mahajan Style Multi-Menu Bar - Compact Height) */
 .header-nav {
-  border-top: 1px solid rgba(0, 0, 0, 0.04);
-  padding: 0.75rem 0 0.85rem;
+  border-top: 1px solid rgba(60, 40, 35, 0.1);
+  padding: 0.45rem 0 0.55rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.header-nav::-webkit-scrollbar {
+  display: none;
 }
 
 .nav-links-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2.4rem;
+  gap: 1.8rem;
+  white-space: nowrap;
+  flex-wrap: nowrap;
 }
 
 .nav-links-wrap a {
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  color: var(--text-dark);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: #2b1f1d;
   position: relative;
-  padding: 0.2rem 0;
+  padding: 0.15rem 0;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.nav-links-wrap a:hover {
+  color: #8a3f35;
 }
 
 .nav-links-wrap a::after {
@@ -192,8 +235,8 @@
   left: 50%;
   transform: translateX(-50%);
   width: 0;
-  height: 1px;
-  background: var(--text-dark);
+  height: 1.5px;
+  background: #2b1f1d;
   transition: width 0.3s ease;
 }
 
@@ -206,6 +249,13 @@
   .header-nav {
     display: none;
   }
+  .desktop-search-btn,
+  .desktop-search-drawer {
+    display: none !important;
+  }
+  .mobile-search-btn {
+    display: inline-flex;
+  }
   .mobile-menu-btn {
     display: inline-flex;
     align-items: center;
@@ -214,38 +264,88 @@
     min-height: 38px;
   }
   .brand-title {
-    font-size: 1.45rem;
-    letter-spacing: 0.22em;
+    font-size: 1.15rem;
+    letter-spacing: 0.2em;
   }
+  /* Mobile Search Bar Dropdown */
+  .mobile-search-bar {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-top: 1px solid var(--border-light, #eee);
+    border-bottom: 1px solid var(--border-light, #eee);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    padding: 0.75rem 1rem;
+    z-index: 99;
+    animation: searchDrop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .mobile-search-inner {
+    display: flex;
+    align-items: center;
+    background: #f7f5f2;
+    border: 1px solid rgba(30, 25, 22, 0.12);
+    border-radius: 2px;
+    padding: 0.4rem 0.75rem;
+    gap: 0.6rem;
+  }
+  .mobile-search-inner .search-icon {
+    color: var(--text-muted, #7a7269);
+    font-size: 0.85rem;
+  }
+  .mobile-search-inner input {
+    border: none;
+    background: transparent;
+    flex: 1;
+    min-width: 0;
+    font-size: 0.88rem;
+    color: var(--text-dark, #1e1916);
+    outline: none;
+    padding: 0.3rem 0;
+  }
+  .search-submit-btn,
+  .search-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-dark, #1e1916);
+    cursor: pointer;
+    padding: 0.35rem 0.5rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+  }
+  .search-submit-btn:hover {
+    color: var(--gold-accent, #c89d47);
+  }
+  .search-close-btn:hover {
+    color: #ef4444;
+  }
+}
+
+@keyframes searchDrop {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 680px) {
   .header-top {
-    padding-top: 0.9rem;
-    padding-bottom: 0.7rem;
+    padding-top: 0.8rem;
+    padding-bottom: 0.65rem;
   }
   .header-left {
-    gap: 0.7rem;
+    gap: 0.4rem;
   }
   .header-right {
-    gap: 0.85rem;
+    gap: 0.7rem;
   }
   .brand-title {
-    font-size: 1.25rem;
+    font-size: 1.05rem;
     letter-spacing: 0.16em;
     margin-left: 0.16em;
-  }
-  .search-drawer {
-    left: 1rem;
-    right: 1rem;
-    width: auto;
-    max-width: calc(100% - 2rem);
-    top: calc(100% + 4px);
-  }
-  .search-drawer input {
-    width: 100%;
-    flex: 1;
-    min-width: 0;
   }
 }
 
@@ -254,22 +354,27 @@
     display: none;
   }
   .header-left {
-    gap: 0.5rem;
+    gap: 0.25rem;
   }
   .header-right {
-    gap: 0.65rem;
+    gap: 0.5rem;
   }
   .brand-title {
-    font-size: 1.05rem;
-    letter-spacing: 0.12em;
-    margin-left: 0.12em;
+    font-size: 0.92rem;
+    letter-spacing: 0.14em;
+    margin-left: 0.14em;
   }
   .currency-btn {
     padding: 0.2rem 0.45rem;
     font-size: 0.65rem;
   }
   .icon-btn {
-    font-size: 1rem;
+    font-size: 0.95rem;
     padding: 0.25rem;
+  }
+  .mobile-menu-btn {
+    min-width: 30px;
+    min-height: 30px;
+    font-size: 1rem;
   }
 }

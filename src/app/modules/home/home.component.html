@@ -1,61 +1,69 @@
-<!-- 1. HERO BANNER -->
-<section 
-  class="hero-banner" 
-  (touchstart)="onHeroTouchStart($event)" 
-  (touchend)="onHeroTouchEnd($event)"
->
-  <!-- Desktop Hero Slide (Background image, typewriter, discover button) -->
-  <div 
-    class="hero-desktop-slide" 
-    [style.backgroundImage]="'url(' + heroSlides[currentHeroIndex].image + ')'"
+<!-- 1. HERO VIDEO BANNER -->
+<section class="hero-video-banner">
+  <!-- Desktop Hero Video -->
+  <video 
+    #desktopVideo
+    class="hero-bg-video desktop-video" 
+    autoplay 
+    muted 
+    [muted]="true"
+    loop 
+    playsinline 
+    webkit-playsinline
+    preload="auto"
+    disablePictureInPicture
+    (ended)="replayVideo($event)"
   >
-    <div class="hero-overlay"></div>
+    <source src="assets/sialuxury-hero.mp4" type="video/mp4" />
+    <source src="sialuxury-hero.mp4" type="video/mp4" />
+    <source src="/sialuxury-hero.mp4" type="video/mp4" />
+  </video>
 
-    <!-- Right-side hero content: popup + character typewriter (Desktop Only) -->
-    <div class="hero-content" [class.pop-in]="heroPopIn">
-      <h1 class="hero-title italic-serif">
-        {{ typedTitle }}<span class="typing-cursor" [class.hide]="!showCursor">|</span>
-      </h1>
-      <a [routerLink]="heroSlides[currentHeroIndex].link" [queryParams]="heroSlides[currentHeroIndex].query" class="hero-discover-btn">
-        <span class="btn-label">Discover More</span>
-        <span class="btn-arrow"><i class="fa-solid fa-arrow-right-long"></i></span>
-      </a>
-    </div>
+  <!-- Mobile Optimized Hero Video -->
+  <video 
+    #mobileVideo
+    class="hero-bg-video mobile-video" 
+    autoplay 
+    muted 
+    [muted]="true"
+    loop 
+    playsinline 
+    webkit-playsinline
+    preload="auto"
+    disablePictureInPicture
+    (ended)="replayVideo($event)"
+  >
+    <source src="assets/sialuxury-hero-mobile.mp4" type="video/mp4" />
+    <source src="sialuxury-hero-mobile.mp4" type="video/mp4" />
+    <source src="/sialuxury-hero-mobile.mp4" type="video/mp4" />
+  </video>
 
-    <!-- Left Bottom Pagination (01 - 2) (Desktop Only) -->
-    <div class="hero-pagination">
-      <button class="pag-btn prev" (click)="prevHero()"><i class="fa-solid fa-chevron-left"></i></button>
-      <span class="pag-text">0{{ currentHeroIndex + 1 }} - {{ heroSlides.length }}</span>
-      <button class="pag-btn next" (click)="nextHero()"><i class="fa-solid fa-chevron-right"></i></button>
-    </div>
-  </div>
+  <div class="hero-video-overlay"></div>
 
-  <!-- Mobile Hero Slide (Pure visual artwork with baked-in text - NO overlapping HTML text or buttons) -->
-  <div class="hero-mobile-slide">
-    <a [routerLink]="heroSlides[currentHeroIndex].link" [queryParams]="heroSlides[currentHeroIndex].query" class="hero-mobile-link">
-      <img 
-        [src]="heroSlides[currentHeroIndex].mobileImage" 
-        [alt]="heroSlides[currentHeroIndex].title" 
-        class="hero-mobile-img" 
-      />
+  <!-- Center Small & Clean Title -->
+  <div class="hero-video-content">
+    <h1 class="hero-center-title serif-heading">SIA LUXURY</h1>
+    <span class="hero-center-subtitle">WEAR YOUR STORY</span>
+    <a routerLink="/products" [queryParams]="{category: 'All'}" class="hero-center-btn">
+      <span>EXPLORE</span>
+      <i class="fa-solid fa-arrow-right-long"></i>
     </a>
   </div>
 </section>
 
-<!-- 2. SHOP BY CATEGORY (6 Cards Grid) -->
+<!-- 2. SHOP BY CATEGORY (4 Cards per row on PC View) -->
 <section class="category-section">
   <div class="container">
-    <h2 class="section-title serif-heading move-from-top">SHOP BY CATEGORY</h2>
+    <h2 class="section-title serif-heading">CURATED CATEGORIES</h2>
 
     <div class="category-grid">
       <div 
-        class="category-card floating-card" 
-        *ngFor="let cat of shopCategories; let idx = index"
+        class="category-card" 
+        *ngFor="let cat of shopCategories"
         [routerLink]="['/products']" 
         [queryParams]="{category: cat.query}"
-        [ngClass]="getCategoryAnimationClass(idx)"
       >
-        <div class="cat-img-box" [ngClass]="getCategoryFloatClass(idx)">
+        <div class="cat-img-box">
           <img [src]="cat.image" [alt]="cat.name" />
           <div class="cat-shade"></div>
         </div>
@@ -67,78 +75,36 @@
   </div>
 </section>
 
-<!-- 3. THE ART OF CELEBRATION (Smooth Auto Carousel Pill Gallery) -->
-<section class="art-celebration-section">
-  <div class="container celebration-gallery-container">
-    <div class="celebration-gallery-inner">
-      
-      <!-- Left Editorial Column: Short and clean content -->
-      <div class="celebration-left move-from-left">
-        <span class="editorial-eyebrow">COUTURE ARCHIVES</span>
-        <h2 class="editorial-heading serif-heading">THE ART OF CELEBRATION</h2>
-        <p class="editorial-text">
-          Occasion dressing where heritage techniques meet contemporary silhouettes.
-        </p>
-        <div class="palette-actions-group">
-          <a routerLink="/products" [queryParams]="{category: 'Saree'}" class="palette-explore-btn">
-            <span>EXPLORE</span>
-            <i class="fa-solid fa-arrow-right-long"></i>
-          </a>
-          <!-- Smooth Carousel Arrow Controls -->
-          <div class="celebration-nav-arrows">
-            <button class="cel-arrow-btn prev" (click)="prevCelebration()" aria-label="Previous Look">
-              <i class="fa-solid fa-arrow-left-long"></i>
-            </button>
-            <button class="cel-arrow-btn next" (click)="nextCelebration()" aria-label="Next Look">
-              <i class="fa-solid fa-arrow-right-long"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Right 7 Stadium Pill Capsules: Staggered one-after-one bottom-to-top load effect -->
-      <div 
-        class="celebration-right"
-        #celebrationRight
-        (mouseenter)="stopCelebrationAutoScroll()"
-        (mouseleave)="startCelebrationAutoScroll()"
-        (touchstart)="onCelebrationTouchStart($event)"
-        (touchend)="onCelebrationTouchEnd($event)"
-      >
-        <div class="mobile-swipe-hint">
-          <span>Swipe looks</span>
-          <i class="fa-solid fa-arrow-right-long"></i>
-        </div>
-        <div class="celebration-pills" [class.is-visible]="celebrationVisible">
-          <a 
-            class="celebration-pill" 
-            *ngFor="let item of celebrationLooks; let i = index"
-            [routerLink]="['/product', item.id]"
-            [style.transitionDelay]="celebrationAnimationDone ? '0s' : ((i * 0.14 + 0.08) + 's')"
-            [attr.title]="'View ' + item.title + ' Details'"
-          >
-            <div class="pill-img-frame">
-              <img [src]="item.image" [alt]="item.title" />
-            </div>
-            <!-- Bottom Text Overlay (Always clearly visible) -->
-            <div class="pill-caption-overlay">
-              <span class="pill-caption-name">{{ item.name }}</span>
-              <span class="pill-caption-dash"></span>
-            </div>
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
 <!-- 4. THE BRIDESMAIDS'S (Full-width Editorial Banner) -->
 <section class="bridesmaids-banner">
   <div class="bridesmaids-overlay"></div>
-  <div class="bridesmaids-content move-from-bottom">
+  <div class="bridesmaids-content">
     <h2 class="bridesmaids-title italic-serif">The Bridesmaids's</h2>
     <a routerLink="/products" [queryParams]="{category: 'Lehenga'}" class="underline-link light">EXPLORE</a>
+  </div>
+</section>
+
+<!-- SECONDARY CATEGORY HIGHLIGHTS (Clean & Minimal Text) -->
+<section class="category-section heritage-category-section">
+  <div class="container">
+    <h2 class="section-title serif-heading">SPECIAL EDITS</h2>
+
+    <div class="category-grid">
+      <div 
+        class="category-card" 
+        *ngFor="let cat of heritageCategories"
+        [routerLink]="['/products']" 
+        [queryParams]="{category: cat.query}"
+      >
+        <div class="cat-img-box">
+          <img [src]="cat.image" [alt]="cat.name" />
+          <div class="cat-shade"></div>
+        </div>
+        <div class="cat-label">
+          <span>{{ cat.name }}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -187,8 +153,7 @@
       <span 
         *ngFor="let id of dotIds; let idx = index" 
         [class.active]="idx === activeDotIndex"
-        (click)="goToDot(idx)"
-      ></span>
+        (click)="goToDot(idx)" ></span>
     </div>
   </div>
 </section>
@@ -205,14 +170,162 @@
     </div>
 
     <div class="beauty-media-staggered">
-      <div class="stagger-card card-one floating-card move-from-top">
-        <div class="float-drift-top" style="width: 100%; height: 100%;">
-          <img src="assets/thebeauty.png" alt="Couture Weave" />
+      <div class="stagger-card card-one">
+        <img src="assets/thebeauty.png" alt="Couture Weave" />
+      </div>
+      <div class="stagger-card card-two beauty-second-img">
+        <img src="assets/thebeauty1.png" alt="Royal Tailoring" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================
+     DEDICATED SECTION 1: WOMENSWEAR
+     ======================================================== -->
+<section class="home-product-category-section">
+  <div class="container">
+    <div class="curated-section-header">
+      <div>
+        <h2 class="curated-title serif-heading">WOMENSWEAR</h2>
+      </div>
+      <a routerLink="/products" [queryParams]="{category: 'Lehenga'}" class="curated-view-all">
+        <span>VIEW ALL</span>
+        <i class="fa-solid fa-arrow-right-long"></i>
+      </a>
+    </div>
+
+    <div class="curated-product-grid">
+      <div class="curated-product-card" *ngFor="let item of womenswearItems">
+        <div class="curated-img-wrap">
+          <a [routerLink]="['/product', item.id]">
+            <img [src]="item.image" [alt]="item.name" />
+          </a>
+          <button class="curated-wish-btn" (click)="cartService.toggleWishlist(item.id); $event.stopPropagation()">
+            <i [class]="cartService.isWishlisted(item.id) ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+          </button>
+          <button class="curated-quick-bag" (click)="cartService.addToCart(item)">
+            <span>+ Quick Bag</span>
+          </button>
+        </div>
+        <div class="curated-info">
+          <span class="curated-cat">{{ item.category }}</span>
+          <h3 class="curated-name"><a [routerLink]="['/product', item.id]">{{ item.name }}</a></h3>
+          <span class="curated-price">{{ cartService.formatPrice(item.price) }}</span>
         </div>
       </div>
-      <div class="stagger-card card-two floating-card move-from-bottom">
-        <div class="float-drift-bottom" style="width: 100%; height: 100%;">
-          <img src="assets/thebeauty1.png" alt="Royal Tailoring" />
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================
+     DEDICATED SECTION 2: MENSWEAR
+     ======================================================== -->
+<section class="home-product-category-section alt-bg">
+  <div class="container">
+    <div class="curated-section-header">
+      <div>
+        <h2 class="curated-title serif-heading">MENSWEAR</h2>
+      </div>
+      <a routerLink="/products" [queryParams]="{category: 'Sherwani'}" class="curated-view-all">
+        <span>VIEW ALL</span>
+        <i class="fa-solid fa-arrow-right-long"></i>
+      </a>
+    </div>
+
+    <div class="curated-product-grid">
+      <div class="curated-product-card" *ngFor="let item of menswearItems">
+        <div class="curated-img-wrap">
+          <a [routerLink]="['/product', item.id]">
+            <img [src]="item.image" [alt]="item.name" />
+          </a>
+          <button class="curated-wish-btn" (click)="cartService.toggleWishlist(item.id); $event.stopPropagation()">
+            <i [class]="cartService.isWishlisted(item.id) ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+          </button>
+          <button class="curated-quick-bag" (click)="cartService.addToCart(item)">
+            <span>+ Quick Bag</span>
+          </button>
+        </div>
+        <div class="curated-info">
+          <span class="curated-cat">{{ item.category }}</span>
+          <h3 class="curated-name"><a [routerLink]="['/product', item.id]">{{ item.name }}</a></h3>
+          <span class="curated-price">{{ cartService.formatPrice(item.price) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================
+     DEDICATED SECTION 3: FESTIVAL EDITS
+     ======================================================== -->
+<section class="home-product-category-section">
+  <div class="container">
+    <div class="curated-section-header">
+      <div>
+        <h2 class="curated-title serif-heading">FESTIVE EDIT</h2>
+      </div>
+      <a routerLink="/products" [queryParams]="{category: 'All'}" class="curated-view-all">
+        <span>VIEW ALL</span>
+        <i class="fa-solid fa-arrow-right-long"></i>
+      </a>
+    </div>
+
+    <div class="curated-product-grid">
+      <div class="curated-product-card" *ngFor="let item of festivalEditItems">
+        <div class="curated-img-wrap">
+          <a [routerLink]="['/product', item.id]">
+            <img [src]="item.image" [alt]="item.name" />
+          </a>
+          <button class="curated-wish-btn" (click)="cartService.toggleWishlist(item.id); $event.stopPropagation()">
+            <i [class]="cartService.isWishlisted(item.id) ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+          </button>
+          <button class="curated-quick-bag" (click)="cartService.addToCart(item)">
+            <span>+ Quick Bag</span>
+          </button>
+        </div>
+        <div class="curated-info">
+          <span class="curated-cat">{{ item.category }}</span>
+          <h3 class="curated-name"><a [routerLink]="['/product', item.id]">{{ item.name }}</a></h3>
+          <span class="curated-price">{{ cartService.formatPrice(item.price) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================
+     DEDICATED SECTION 4: NEW ARRIVALS
+     ======================================================== -->
+<section class="home-product-category-section alt-bg">
+  <div class="container">
+    <div class="curated-section-header">
+      <div>
+        <h2 class="curated-title serif-heading">NEW ARRIVALS</h2>
+      </div>
+      <a routerLink="/products" [queryParams]="{category: 'All'}" class="curated-view-all">
+        <span>VIEW ALL</span>
+        <i class="fa-solid fa-arrow-right-long"></i>
+      </a>
+    </div>
+
+    <div class="curated-product-grid">
+      <div class="curated-product-card" *ngFor="let item of newArrivalItems">
+        <div class="curated-img-wrap">
+          <a [routerLink]="['/product', item.id]">
+            <img [src]="item.image" [alt]="item.name" />
+          </a>
+          <button class="curated-wish-btn" (click)="cartService.toggleWishlist(item.id); $event.stopPropagation()">
+            <i [class]="cartService.isWishlisted(item.id) ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
+          </button>
+          <button class="curated-quick-bag" (click)="cartService.addToCart(item)">
+            <span>+ Quick Bag</span>
+          </button>
+        </div>
+        <div class="curated-info">
+          <span class="curated-cat">{{ item.category }}</span>
+          <h3 class="curated-name"><a [routerLink]="['/product', item.id]">{{ item.name }}</a></h3>
+          <span class="curated-price">{{ cartService.formatPrice(item.price) }}</span>
         </div>
       </div>
     </div>
@@ -222,15 +335,16 @@
 <!-- 7. FOLLOW OUR WORLD (Lookbook Grid) -->
 <section class="follow-world-section">
   <div class="container">
-    <h2 class="section-title serif-heading move-from-top">FOLLOW OUR WORLD</h2>
+    <h2 class="section-title serif-heading">FOLLOW OUR WORLD</h2>
+     
+  
 
     <div class="lookbook-grid">
       <div 
-        class="lookbook-card floating-card" 
-        *ngFor="let lb of lookbookItems; let i = index"
-        [ngClass]="getLookbookAnimationClass(i)"
+        class="lookbook-card" 
+        *ngFor="let lb of lookbookItems"
       >
-        <div [ngClass]="getLookbookFloatClass(i)" style="width: 100%; height: 100%;">
+        <div style="width: 100%; height: 100%;">
           <img [src]="lb.image" [alt]="lb.caption" />
           <div class="lookbook-hover-overlay">
             <i class="fa-brands fa-instagram insta-icon"></i>
@@ -245,7 +359,7 @@
 <!-- 8. RESERVE YOUR SLOT (Bottom Salon Appointment Banner) -->
 <section class="reserve-slot-banner">
   <div class="reserve-overlay"></div>
-  <div class="reserve-content move-from-bottom">
+  <div class="reserve-content">
     <h2 class="reserve-title italic-serif">Reserve Your Slot</h2>
     <a routerLink="/products" class="underline-link light">Schedule an appointment</a>
   </div>
