@@ -98,11 +98,6 @@
     (touchstart)="onMomentTouchStart($event)" 
     (touchend)="onMomentTouchEnd($event)"
   >
-    <!-- Carousel Arrows -->
-    <button class="carousel-arrow prev" (click)="prevMoment()" aria-label="Previous Look">
-      <i class="fa-solid fa-arrow-left-long"></i>
-    </button>
-
     <div class="moment-viewport">
       <div 
         class="moment-track" 
@@ -133,10 +128,6 @@
         </div>
       </div>
     </div>
-
-    <button class="carousel-arrow next" (click)="nextMoment()" aria-label="Next Look">
-      <i class="fa-solid fa-arrow-right-long"></i>
-    </button>
   </div>
 
   <!-- Carousel Indicator Dots -->
