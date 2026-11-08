@@ -26,9 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   isMobile = false;
 
   get videoSource(): string {
-    return this.isMobile
-      ? 'assets/sialuxury-hero-mobile.mp4'
-      : 'assets/sialuxury-hero.mp4';
+    return 'assets/sialuxury-hero.mp4';
   }
 
   // Hero slides: Desktop high-res backgrounds and mobile dedicated artwork (with baked-in text)

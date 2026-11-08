@@ -56,11 +56,9 @@
       </a>
       <a routerLink="/wishlist" class="icon-btn" title="Saved Wishlist">
         <i class="fa-regular fa-heart"></i>
-        <span class="count-badge" *ngIf="cartService.wishlistIds.length > 0">{{ cartService.wishlistIds.length }}</span>
       </a>
       <button class="icon-btn cart-btn" (click)="toggleCartDrawer()" aria-label="Shopping Bag">
         <i class="fa-solid fa-bag-shopping"></i>
-        <span class="count-badge" *ngIf="cartService.getCartCount() > 0">{{ cartService.getCartCount() }}</span>
       </button>
     </div>
 
